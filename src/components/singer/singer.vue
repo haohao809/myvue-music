@@ -1,6 +1,6 @@
 <template>
 	<div class="singer">
-		<list-view ></list-view>
+		<list-view :data = 'singers'></list-view>
 		<router-view></router-view>
 	</div>
 </template>
@@ -8,9 +8,16 @@
 <script>
 	import ListView from 'base/listview/listview'
 	import {getSingerList} from 'api/singer'
+	import Singer from 'common/js/singer'
+//	console.log(Singer);
 	export default {
 		components:{
 			ListView
+		},
+		data () {
+			return {
+				singers :[]
+			}
 		},
 		created(){
 			this._getSingerList()
@@ -19,11 +26,52 @@
 			_getSingerList() {
 				getSingerList().then((res) => {
 					if(res.code == 0){
-						console.log(res.data);
+						this.singers = this.normalizeSinger(res.data.list);
+						console.log(this.singers);
 					}
 				})
 				
 				
+			},
+			normalizeSinger(list){
+				let map = {
+					hot: {
+						title : '热门',
+						items  : []
+					}					
+				}
+				for(var i= 0;i<list.length; i++){
+					if(i < 10){
+						map.hot.items.push(new Singer({
+							name : list[i].Fsinger_name,
+							id : list[i].Fsinger_mid
+					  }))
+					}
+					const key = list[i].Findex;
+					if(!map[key]){
+						map[key] = {
+							title : key,
+							items  : []
+						}
+					}
+					map[key].items.push(new Singer({
+						name : list[i].Fsinger_name,
+						id : list[i].Fsinger_mid
+					}))
+				}
+//				console.log(map);
+				let res = []
+				let hot = []
+				for(var key in map){
+//					console.log(key);
+					if(key.match(/[a-zA-z]/)){
+						res.push(map[key])
+					}
+					else if(key == 'hot'){
+						hot.push(map[key]);
+					}
+				}
+				return hot.concat(res);
 			}
 		}
 	}
