@@ -1,5 +1,5 @@
 <template>
-	<scroll :data="data">
+	<scroll :data="data" class="listview">
 		<ul>
 			<li v-for="group in data" class="group">
 				<h2 class="list-title">{{group.title}}</h2>
@@ -13,7 +13,7 @@
 		</ul>
 		<div class="mark">
 			<ul>
-				<li v-for="(item,index) in data" class="letter-title">
+				<li v-for="(item,index) in data" class="letter-title" @touchstart.stop.prevent='onTouchstart' :data-index="index">
 					{{item.title.substr(0,1)}}
 				</li>
 			</ul>
@@ -38,12 +38,25 @@
 		methods:{
 			_init(){
 				console.log(this.data);
+			},
+			onTouchstart(e){
+				let anchorIndex = e.target.getAttribute('data-index');
 			}
+		},
+		components:{
+			Scroll
 		}
 	}
 </script>
 
 <style scoped>
+	.listview{
+		position: relative;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background: #222;
+	}
 	.item-img{
 		width: 50px;
 		height:50px;

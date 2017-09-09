@@ -77,5 +77,11 @@
 	}
 </script>
 
-<style>
+<style scoped>
+	.singer{
+		position: absolute;
+		top:106px;
+		bottom: 0;
+		width: 100%;
+	}
 </style>
