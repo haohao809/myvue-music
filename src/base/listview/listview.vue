@@ -69,7 +69,6 @@
 		     	this._scrollTo(anchorIndex);
 		     },
 			_scrollTo(index){
-//				console.log(index);
 				if (!index && index !== 0) {
 		          return
 		        }
