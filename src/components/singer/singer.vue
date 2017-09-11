@@ -63,14 +63,16 @@
 				let res = []
 				let hot = []
 				for(var key in map){
-//					console.log(key);
-					if(key.match(/[a-zA-z]/)){
+					if(key.match(/[a-zA-z]/)&& key!=='hot'){
 						res.push(map[key])
 					}
-					else if(key == 'hot'){
+					else if(key === 'hot'){
 						hot.push(map[key]);
 					}
 				}
+				res.sort((a,b) =>{
+					return a.title.charCodeAt(0) - b.title.charCodeAt(0);
+				})
 				return hot.concat(res);
 			}
 		}

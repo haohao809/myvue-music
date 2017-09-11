@@ -1,7 +1,7 @@
 <template>
-	<scroll :data="data" class="listview">
+	<scroll :data="data" class="listview" ref="listview" @scroll="scroll">
 		<ul>
-			<li v-for="group in data" class="group">
+			<li v-for="group in data" class="group" ref='listGroup'>
 				<h2 class="list-title">{{group.title}}</h2>
 				<ul>
 					<li v-for="item in group.items" class="item-group">
@@ -13,7 +13,7 @@
 		</ul>
 		<div class="mark">
 			<ul>
-				<li v-for="(item,index) in data" class="letter-title" @touchstart.stop.prevent='onTouchstart' :data-index="index">
+				<li v-for="(item,index) in data" class="letter-title" @touchstart.stop.prevent='onTouchstart' @touchmove.stop.prevent='onTouchMove'  :data-index="index">
 					{{item.title.substr(0,1)}}
 				</li>
 			</ul>
@@ -32,15 +32,56 @@
 				default:[]
 			}
 		},
-		mounted(){
-			this._init()
+		created(){
+			this.touch = {}
+		},
+		data(){
+			return {
+			 currentIndex: 0,
+			 scrollY: -1
+			}
+
 		},
 		methods:{
 			_init(){
 				console.log(this.data);
 			},
 			onTouchstart(e){
+				let firstTouch = e.touches[0]
+				console.log(firstTouch);
+        		this.touch.y1 = firstTouch.pageY
 				let anchorIndex = e.target.getAttribute('data-index');
+				this._scrollTo(anchorIndex);
+				this.touch.anchorIndex = anchorIndex
+			},
+			refresh() {
+		        this.$refs.listview.refresh()
+		     },
+		     scroll(pos) {
+		        this.scrollY = pos.y
+		        console.log(this.scrollY);
+		     },
+		     onTouchMove(e){
+		     	let firstTouch = e.touches[0]
+		     	this.touch.y2 = firstTouch.pageY
+		        let delta = (this.touch.y2 - this.touch.y1) / 18 | 0
+		     	let anchorIndex = parseInt(this.touch.anchorIndex) + delta
+		     	this._scrollTo(anchorIndex);
+		     },
+			_scrollTo(index){
+//				console.log(index);
+				if (!index && index !== 0) {
+		          return
+		        }
+				if(index<0){
+					index = 0;
+				}
+				this.$refs.listview.scrollToElement(this.$refs.listGroup[index],0)
+			}
+		},
+		watch:{
+			scrollY(newY){
+				console.log(newY);
 			}
 		},
 		components:{
@@ -86,9 +127,10 @@
 		position: absolute;
 		right: 0;
 		top: 50%;
+		transform: translateY(-50%);
 	}
 	.letter-title{
-		font-size: 14px;
+		font-size: 12px;
 		color: rgba(255,255,255,0.5);
 		background: #333;
 		padding: 3px;
