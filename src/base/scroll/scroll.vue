@@ -61,8 +61,9 @@
 			})
 			
 			if(this.listenScroll) {
+				let me = this;
 				this.scroll.on('scroll',(pos)=>{
-					this.$emit('scroll',pos)
+					me.$emit('scroll',pos)
 				})
 			}
 			if(this.pullup){
