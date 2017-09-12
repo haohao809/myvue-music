@@ -20,7 +20,11 @@
 				</li>
 			</ul>
 		</div>
-	
+		<div class="fixed" v-show="fixedTitle" ref="fixed">
+			<div class="fixed-title">
+				{{fixedTitle}}
+			</div>
+		</div>
 	</scroll>
 
 </template>
@@ -43,9 +47,18 @@
 		data(){
 			return {
 			 currentIndex: 0,
-			 scrollY: -1
+			 scrollY: -1,
+			 diff: -1
 			}
 
+		},
+		computed:{
+			fixedTitle(){
+				if(this.scrollY > 0){
+					return '';
+				}
+				return this.data[this.currentIndex] ? this.data[this.currentIndex].title : '';
+			}
 		},
 		methods:{
 			_init(){
@@ -79,8 +92,11 @@
 		        }
 				if(index<0){
 					index = 0;
+				}else if(index > this.listHeight.length-2){
+					index = this.listHeight.length-2;
 				}
 				this.scrollY = -this.listHeight[index];
+				console.log(this.scrollY);
 				this.$refs.listview.scrollToElement(this.$refs.listGroup[index],0)
 				
 			},
@@ -104,18 +120,36 @@
 			},
 			scrollY(newY){
 				const listHeight = this.listHeight;
+				//当滚动到顶部
+				if(newY>0){
+					this.currentIndex = 0;
+				}
 //				console.log(-newY);
 //				console.log(this.listHeight);
-				for(let i = 0; i<listHeight.length; i++){
+				//在中间
+				for(let i = 0; i<listHeight.length-1; i++){
 					let height1 = listHeight[i];
 					let height2 = listHeight[i+1];
-					if(-newY > height1 && -newY < height2){
+					if(-newY >= height1 && -newY < height2){
 						this.currentIndex = i;
-						console.log(this.currentIndex);
+						this.diff = height2 + newY;
+//						console.log(this.currentIndex);
 						return
 					}
 				}
-				this.currentIndex = 0;
+				//当滚动到底部
+				this.currentIndex = listHeight.length - 2;
+				console.log(this.currentIndex);
+			},
+			diff(val){
+				let DValue = (val > 0 && val < 30) ? val-30 : 0;  //30是fixtitle高度
+				console.log(DValue);
+				console.log(this.DValue);
+				if(this.DValue === DValue){
+					return
+				}
+				this.DValue = DValue;
+				this.$refs.fixed.style.transform = `translate3d(0,$(DValue)px,0)`
 			}
 		},
 		components:{
@@ -171,5 +205,19 @@
 	}
 	.current{
 		color:#ffcd32;
+	}
+	.fixed{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+	.fixed-title{
+		font-size:12px;
+		color: rgba(255,255,255,0.5);
+		background: #333;
+		padding-left: 20px;
+		height: 30px;
+		line-height: 30px;
 	}
 </style>
