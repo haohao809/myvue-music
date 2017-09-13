@@ -20,10 +20,13 @@
 				</li>
 			</ul>
 		</div>
-		<div class="fixed" v-show="fixedTitle" ref="fixed">
+		<div class="fixed-list" v-show="fixedTitle" ref="fixed">
 			<div class="fixed-title">
 				{{fixedTitle}}
 			</div>
+		</div>
+		<div class="loading" v-show="!data.length">
+			<loading></loading>
 		</div>
 	</scroll>
 
@@ -31,6 +34,7 @@
 
 <script>
 	import Scroll from 'base/scroll/scroll'
+	import Loading from 'base/loading/loading'
 	export default {
 		props:{
 			data:{
@@ -96,7 +100,7 @@
 					index = this.listHeight.length-2;
 				}
 				this.scrollY = -this.listHeight[index];
-				console.log(this.scrollY);
+//				console.log(this.scrollY);
 				this.$refs.listview.scrollToElement(this.$refs.listGroup[index],0)
 				
 			},
@@ -149,11 +153,12 @@
 					return
 				}
 				this.DValue = DValue;
-				this.$refs.fixed.style.transform = `translate3d(0,$(DValue)px,0)`
+				this.$refs.fixed.style.transform = `translate3d(0,${DValue}px,0)`
 			}
 		},
 		components:{
-			Scroll
+			Scroll,
+			Loading
 		}
 	}
 </script>
@@ -206,7 +211,7 @@
 	.current{
 		color:#ffcd32;
 	}
-	.fixed{
+	.fixed-list{
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -219,5 +224,11 @@
 		padding-left: 20px;
 		height: 30px;
 		line-height: 30px;
+	}
+	.loading{
+		position: absolute;
+		width: 100%;
+		top:50%;
+		transform: translateY(-50%);
 	}
 </style>
