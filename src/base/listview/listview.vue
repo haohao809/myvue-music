@@ -4,7 +4,7 @@
 			<li v-for="group in data" class="group" ref='listGroup'>
 				<h2 class="list-title">{{group.title}}</h2>
 				<ul>
-					<li v-for="item in group.items" class="item-group">
+					<li v-for="item in group.items" class="item-group" @click='selectSinger(item)'>
 						<img  class="item-img" v-lazy="item.avatar" />
 						<span class="item-span">{{item.name}}</span>
 					</li>
@@ -114,6 +114,10 @@
 					height += item.clientHeight;
 					this.listHeight.push(height);
 				}
+			},
+			selectSinger(item){
+//				console.log(item.id);
+				this.$emit('select',item);
 			}
 		},
 		watch:{
@@ -127,6 +131,7 @@
 				//当滚动到顶部
 				if(newY>0){
 					this.currentIndex = 0;
+					return
 				}
 //				console.log(-newY);
 //				console.log(this.listHeight);
@@ -147,8 +152,8 @@
 			},
 			diff(val){
 				let DValue = (val > 0 && val < 30) ? val-30 : 0;  //30是fixtitle高度
-				console.log(DValue);
-				console.log(this.DValue);
+//				console.log(DValue);
+//				console.log(this.DValue);
 				if(this.DValue === DValue){
 					return
 				}
@@ -201,6 +206,7 @@
 		right: 0;
 		top: 50%;
 		transform: translateY(-50%);
+		z-index: 30;
 	}
 	.letter-title{
 		font-size: 12px;

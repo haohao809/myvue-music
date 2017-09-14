@@ -1,6 +1,6 @@
 <template>
 	<div class="singer">
-		<list-view :data = 'singers'></list-view>
+		<list-view :data = 'singers' @select='selectSinger'></list-view>
 		<router-view></router-view>
 	</div>
 </template>
@@ -9,6 +9,7 @@
 	import ListView from 'base/listview/listview'
 	import {getSingerList} from 'api/singer'
 	import Singer from 'common/js/singer'
+	import {mapMutations} from 'vuex'
 //	console.log(Singer);
 	export default {
 		components:{
@@ -74,8 +75,20 @@
 					return a.title.charCodeAt(0) - b.title.charCodeAt(0);
 				})
 				return hot.concat(res);
-			}
-		}
+			},
+			selectSinger(item){
+//				console.log(id);
+				this.$router.push({
+					path: `/singer/${item.id}`
+				})
+				this.setSinger(item)
+//				this.$store.commit('SET_SINGER',item);
+			},
+			...mapMutations({
+         	setSinger: 'SET_SINGER'
+      		})
+		},
+
 	}
 </script>
 
