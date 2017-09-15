@@ -1,6 +1,6 @@
 <template>
 	<div class="music-list">
-		<div class="back">
+		<div class="back" @click='back'>
 			<i class="icon"></i>			
 		</div>
 		<h1 class="title">{{title}}</h1>
@@ -59,10 +59,16 @@
 		},
 		watch: {
 			scrollY(newY){
-				console.log(newY);
+//				console.log(newY);
 				let translateY = Math.max(this.minTranslateY,newY);
+				let scale = 1;
 				console.log(translateY);
 				let zIndex = 0;
+				const percent = Math.abs(newY/this.imageHeight);
+				if(newY>0){
+					scale = 1 + percent;
+					zIndex = 10;
+				}
 				this.$refs.layer.style.transform = `translate3d(0,${translateY}px,0)`;
 				if(newY<this.minTranslateY){
 					zIndex = 10;
@@ -73,11 +79,15 @@
           			this.$refs.bgImage.style.height = 0
 				}
 				this.$refs.bgImage.style.zIndex = zIndex;
+				this.$refs.bgImage.style.transform = `scale(${scale})`;
 			}
 		},
 		methods :{
 			scroll(pos){
 				this.scrollY = pos.y
+			},
+			back(){
+				this.$router.back()
 			}
 		}
 		
