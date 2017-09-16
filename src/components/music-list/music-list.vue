@@ -4,7 +4,16 @@
 			<i class="icon"></i>			
 		</div>
 		<h1 class="title">{{title}}</h1>
-		<div class="bg-image" :style="bgStyle"ref='bgImage'>			
+		<div class="bg-image" :style="bgStyle"ref='bgImage'>
+			<div class="play-wrapper" ref="playBtn">
+				<div class="play">
+					<i class="icon-play"></i>
+					<span class="text">随机播放全部</span>
+				</div>
+			</div>
+			<div class="filter" ref="filter">
+				
+			</div>
 		</div>
 		<div class="bg-layer" ref="layer">			
 		</div>
@@ -64,19 +73,25 @@
 				let scale = 1;
 				console.log(translateY);
 				let zIndex = 0;
+				let blur = 0;
 				const percent = Math.abs(newY/this.imageHeight);
 				if(newY>0){
 					scale = 1 + percent;
 					zIndex = 10;
+				}else{
+					blur = Math.min(20,percent*20);
 				}
 				this.$refs.layer.style.transform = `translate3d(0,${translateY}px,0)`;
+				this.$refs.filter.style.backdrop = `blur(${blur})`
 				if(newY<this.minTranslateY){
 					zIndex = 10;
 					this.$refs.bgImage.style.paddingTop = 0
           			this.$refs.bgImage.style.height = `40px`
+          			this.$refs.playBtn.style.display = 'none'
 				}else{
 					this.$refs.bgImage.style.paddingTop = '70%'
           			this.$refs.bgImage.style.height = 0
+          			this.$refs.playBtn.style.display = ''
 				}
 				this.$refs.bgImage.style.zIndex = zIndex;
 				this.$refs.bgImage.style.transform = `scale(${scale})`;
@@ -153,5 +168,26 @@
 		position: relative;
 		background: #222222;
 		height: 100%;
+	}
+	.play-wrapper{
+		position: absolute;
+		bottom: 20px;
+		width: 100%;
+		z-index: 50;
+	}
+	.play{
+		color: #ffcd32;
+		text-align: center;
+		border: 1px solid #FFCD32;
+		width: 135px;
+		margin: 0 auto;
+		padding: 7px 0;
+		border-radius: 100px;
+	}
+	.icon-play{
+		font-family: 'music-icon' !important;
+	}
+	.icon-play:before{
+		content: '\E90C';
 	}
 </style>
