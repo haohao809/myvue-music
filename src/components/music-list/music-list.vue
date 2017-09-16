@@ -17,7 +17,7 @@
 		</div>
 		<div class="bg-layer" ref="layer">			
 		</div>
-		<scroll class="list" :data='songs' ref='list' :listen-scroll='listenScroll' :probeType='probeType' @scroll='scroll'>
+		<scroll  @select='selectItem' class="list" :data='songs' ref='list' :listen-scroll='listenScroll' :probeType='probeType' @scroll='scroll'>
 			<div class="song-list-wrapper">
 				<song-list :songs='songs'></song-list>
 			</div>
@@ -103,6 +103,9 @@
 			},
 			back(){
 				this.$router.back()
+			},
+			selectItem(song, index){
+				
 			}
 		}
 		
