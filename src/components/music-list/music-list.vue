@@ -17,9 +17,9 @@
 		</div>
 		<div class="bg-layer" ref="layer">			
 		</div>
-		<scroll  @select='selectItem' class="list" :data='songs' ref='list' :listen-scroll='listenScroll' :probeType='probeType' @scroll='scroll'>
+		<scroll  class="list" :data='songs' ref='list' :listen-scroll='listenScroll' :probeType='probeType' @scroll='scroll'>
 			<div class="song-list-wrapper">
-				<song-list :songs='songs'></song-list>
+				<song-list :songs='songs' @select='selectItem'></song-list>
 			</div>
 		</scroll>
 	</div>
@@ -28,6 +28,7 @@
 <script>
 	import SongList from 'base/song-list/song-list'
 	import Scroll from 'base/scroll/scroll'
+	import {mapActions} from 'vuex'
 	export default {
 		props:{
 			title :{
@@ -105,8 +106,14 @@
 				this.$router.back()
 			},
 			selectItem(song, index){
-				
-			}
+				this.selectPlay({
+					list:this.songs,
+					index
+				})
+			},
+			...mapActions([
+				'selectPlay'
+			])
 		}
 		
 	}
