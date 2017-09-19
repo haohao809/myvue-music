@@ -21,7 +21,7 @@
 				<div class="middle-l">
 					<div class="cd-wrapper" ref='cdWrapper'>
 						<div class="cd" >
-							<img :src="currentSong.imgage" />
+							<img :src="currentSong.imgage" class="image"/>
 						</div>
 				</div>
 				</div>
@@ -40,13 +40,13 @@
 						<i class="icon-sequence"></i>
 					</div>
 					<div class="icon i-left">
-						<i class="icon-prev"></i>
+						<i class="icon-prev" @click='prev'></i>
 					</div>
 					<div class="icon i-center">
-						<i class="icon-play"></i>
+						<i :class="playIcon" @click='togglePlaying'></i>
 					</div>
 					<div class="icon i-right">
-						<i class="icon-next"></i>
+						<i class="icon-next" @click='next'></i>
 					</div>
 					<div class="icon i-right">
 						<i class="icon-not-favorite"></i>
@@ -67,7 +67,7 @@
 			</div>
 			<div class="control">
 				<div class="progress-circle">
-					<i class="icon-mini icon-play-mini">
+					<i class="icon-mini" :class ='miniIcon' @click.stop="togglePlaying">
 						
 					</i>
 				</div>
@@ -76,7 +76,7 @@
 				<i class="icon-playlist"></i>
 			</div>
 		</div>
-		<p>{{currentSong}}</p>
+		<audio ref='audio' :src='currentSong.url' @play="ready" @error="error"></audio>
 	</div>
 </template>
 
@@ -84,17 +84,45 @@
 	import {mapGetters,mapMutations} from 'vuex'
 	import animations from 'create-keyframe-animation'
 	export default{
+		data(){
+			return {
+				songReady: false,
+			}
+		},
 		computed:{
+			playIcon(){
+				return this.playing ?'icon-pause' : 'icon-play'
+			},
+			miniIcon(){
+				return this.playing ?'icon-pause-mini' : 'icon-play-mini'
+			},
 			...mapGetters([
 				'fullScreen',
 				'playList',
 				'playing',
-				'currentSong'
+				'currentSong',
+				'currentIndex'
 			])			
 		},
 		watch:{
 			 currentSong(newSong,oldSong){
 			 	
+			 	this.songReady = false;
+			 	clearTimeout(this.timer)
+			 	 this.timer = setTimeout(() => {
+		          this.$refs.audio.play()
+		        }, 1000)
+			 },
+			 playing(newPalying){
+			 	if (!this.songReady) {
+			          return
+			    }
+//				console.log(this.songReady);
+//			 	console.log(newPalying);
+				const audio = this.$refs.audio;
+				this.$nextTick(() =>{
+					newPalying ? audio.play() : audio.pause() 
+				})
 			 }
 		},
 		methods:{
@@ -104,9 +132,63 @@
 			open(){
 				this.setFullScreen(true);
 			},
+			prev(){
+				if (!this.songReady) {
+		          return
+		       }
+				if(this.playList.length===1){
+					
+					return
+				}
+				else{
+				 let index	= this.currentIndex-1;
+				 if(index === -1){
+				 	index = this.playList.length-1;
+				 }
+				  this.setCurrentIndex(index);
+				  if (!this.playing) {
+		            this.togglePlaying()
+		          }
+				}
+			},
+			next(){
+				if (!this.songReady) {
+		          return
+		       }
+				if(this.playList.length===1){
+					
+					return
+				}
+				else{
+					let index	= this.currentIndex+1;
+					if(index === this.playList.length){
+						index=0;
+					}
+					this.setCurrentIndex(index);
+					if (!this.playing) {
+		            this.togglePlaying()
+		          }
+				}
+			},
+			togglePlaying(){
+				if (!this.songReady) {
+		          return
+		       }
+				this.setPlayingState(!this.playing)
+			},
 			...mapMutations({
-				setFullScreen: 'SET_FULL_SCREEN'
+				setFullScreen: 'SET_FULL_SCREEN',
+				setPlayingState: 'SET_PLAYING_STATE',
+				setCurrentIndex: 'SET_CURRENT_INDEX'
 			}),
+			ready(){
+				console.log(this.songReady);
+				this.songReady = true;
+				
+			},
+			error() {
+		       
+		     },
 			enter(el,done){
 				const {x,y,scale} = this._getPosAndScale()
 				let animation ={
@@ -265,6 +347,9 @@
 		height: 100%;
 		border: 10px solid rgba(250,250,250,0.1);
 		box-sizing: border-box
+	}
+	.cd .image{
+		animation:  rotate 20s linear infinite;
 	}
 	.bottom{
 		position: fixed;
