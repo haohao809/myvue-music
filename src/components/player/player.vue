@@ -21,7 +21,7 @@
 				<div class="middle-l">
 					<div class="cd-wrapper" ref='cdWrapper'>
 						<div class="cd" >
-							<img v-lazy="currentSong.imgage" class="image"/>
+							<img v-lazy="currentSong.imgage":class="cdCls" class="image"/>
 						</div>
 				</div>
 				</div>
@@ -62,7 +62,7 @@
 		<div class="mini-player" v-show='!fullScreen' @click="open">
 			<div class="small-icon">
 				<div class="imgWrapper">
-					<img v-lazy='currentSong.imgage' width="40px" height="40px"/>
+					<img v-lazy='currentSong.imgage' width="40px" height="40px" :class='cdCls'/>
 				</div>
 			</div>
 			<div class="text">
@@ -95,6 +95,9 @@
 			}
 		},
 		computed:{
+			cdCls(){
+				return this.playing ? 'play':''
+			},
 			playIcon(){
 				return this.playing ?'icon-pause' : 'icon-play'
 			},
@@ -364,7 +367,7 @@
 		border: 10px solid rgba(250,250,250,0.1);
 		box-sizing: border-box
 	}
-	.cd .image{
+	.play{
 		animation:  rotate 20s linear infinite;
 	}
 	.bottom{
