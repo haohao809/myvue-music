@@ -21,7 +21,7 @@
 				<div class="middle-l">
 					<div class="cd-wrapper" ref='cdWrapper'>
 						<div class="cd" >
-							<img :src="currentSong.imgage" class="image"/>
+							<img v-lazy="currentSong.imgage" class="image"/>
 						</div>
 				</div>
 				</div>
@@ -33,7 +33,11 @@
 					<span class="dot"></span>
 				</div>
 				<div class="progress">
-					
+					<span class="time-s">{{format(currentTime)}}</span>
+					<div class="progress-bar">
+						
+					</div>
+					<span class="time-e">{{format(currentSong.duration)}}</span>
 				</div>
 				<div class="operators">
 					<div class="icon i-left">
@@ -58,7 +62,7 @@
 		<div class="mini-player" v-show='!fullScreen' @click="open">
 			<div class="small-icon">
 				<div class="imgWrapper">
-					<img :src='currentSong.imgage' width="40px" height="40px"/>
+					<img v-lazy='currentSong.imgage' width="40px" height="40px"/>
 				</div>
 			</div>
 			<div class="text">
@@ -76,7 +80,7 @@
 				<i class="icon-playlist"></i>
 			</div>
 		</div>
-		<audio ref='audio' :src='currentSong.url' @play="ready" @error="error"></audio>
+		<audio ref='audio' :src='currentSong.url' @play="ready" @error="error" @timeupdate="timeupdate"></audio>
 	</div>
 </template>
 
@@ -87,6 +91,7 @@
 		data(){
 			return {
 				songReady: false,
+				currentTime: 0,
 			}
 		},
 		computed:{
@@ -169,6 +174,18 @@
 		            this.togglePlaying()
 		          }
 				}
+			},
+			timeupdate(e){
+				this.currentTime = e.target.currentTime;
+			},
+			format(time){
+				time = time|0;
+				const minute = time/60 | 0;
+				let second = time%60 | 0;
+				if(second.toString().length==1){
+					second = '0' + second;
+				}
+				return `${minute}:${second}`;
 			},
 			togglePlaying(){
 				if (!this.songReady) {
@@ -443,4 +460,14 @@
 		font-size: 30px;
 		color: rgba(255,205,49,0.5);
 	}
+	@keyframes rotate{
+	 0%{
+	  transform: rotate(0);
+	 }
+     
+    100%{
+      transform: rotate(360deg);
+    }   		
+}
+
 </style>
