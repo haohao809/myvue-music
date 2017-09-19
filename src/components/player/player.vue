@@ -5,7 +5,7 @@
 				<img :src="currentSong.imgage" width="100%" height="100%"/>
 			</div>
 			<div class="top">
-				<div class="back">
+				<div class="back" @click='back'>
 					<i class="icon-back"></i>					
 				</div>
 				<h1  class="title"  v-html='currentSong.name'></h1>
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="mini-player" >
+		<div class="mini-player" v-show='!fullScreen'>
 			<div class="small-icon">
 				<div class="imgWrapper">
 					<img :src='currentSong.imgage' width="40px" height="40px"/>
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-	import {mapGetters} from 'vuex'
+	import {mapGetters,mapMutations} from 'vuex'
 	export default{
 		computed:{
 			...mapGetters([
@@ -88,6 +88,14 @@
 			 currentSong(newSong,oldSong){
 			 	
 			 }
+		},
+		methods:{
+			back(){
+				this.setFullScreen(false);
+			},
+			...mapMutations({
+				setFullScreen: 'SET_FULL_SCREEN'
+			})
 		}
 
 	}
