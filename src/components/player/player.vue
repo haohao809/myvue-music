@@ -1,5 +1,6 @@
 <template>
 	<div class="player" v-show='playList.length>0'>
+		<transition name='normal'>
 		<div class="normal-player" v-show='fullScreen'>
 			<div class="background">
 				<img :src="currentSong.imgage" width="100%" height="100%"/>
@@ -48,6 +49,7 @@
 				</div>
 			</div>
 		</div>
+		</transition>
 		<div class="mini-player" v-show='!fullScreen'>
 			<div class="small-icon">
 				<div class="imgWrapper">
@@ -102,6 +104,21 @@
 </script>
 
 <style scoped>
+	.normal-enter-active,.normal-leave-active{
+		transition: all .3s ease;
+	}
+	.normal-enter-active .top,.normal-enter-active .bottom,.normal-leave-active .top,.normal-leave-active .bottom{
+		transition: all 0.3s cubic-bezier(0.86, 0.18, 0.82, 1.32);
+	}
+	.normal-enter,.normal-leave-to{
+		opacity: 0;
+	}
+	.normal-enter .top,.normal-leave-to .top{
+		transform: translate3d(0,-100px,0);
+	}
+	.normal-enter .bottom,.normal-leave-to .bottom{
+		transform: translate3d(0,100px,0);
+	}
 	.normal-player {
 		position: absolute;
 		top:0;
