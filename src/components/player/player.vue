@@ -135,7 +135,12 @@
 		},
 		watch:{
 			 currentSong(newSong,oldSong){
-			 	
+			 if (!newSong.id) {
+			          return
+			     }
+		        if (newSong.id === oldSong.id) {
+		          return
+		        }			 	
 			 	this.songReady = false;
 			 	clearTimeout(this.timer)
 			 	 this.timer = setTimeout(() => {
@@ -184,8 +189,7 @@
 				if (!this.songReady) {
 		          return
 		       }
-				if(this.playList.length===1){
-					
+				if(this.playList.length===1){					
 					return
 				}
 				else{
@@ -193,7 +197,9 @@
 					if(index === this.playList.length){
 						index=0;
 					}
+					console.log(index);
 					this.setCurrentIndex(index);
+					console.log(this.playing);
 					if (!this.playing) {
 		            this.togglePlaying()
 		          }
@@ -236,7 +242,7 @@
 				let index = list.findIndex((item)=>{
 					return item.id === this.currentSong.id;
 				})
-				console.log(index);
+//				console.log(index);
 				this.setCurrentIndex(index);
 			},
 			...mapMutations({
@@ -256,10 +262,12 @@
 		     },
 		     end(){
 		     	this.currentTime = 0;
-		     	if(this.mode == playMode.loop){
+		     	console.log(this.mode);
+		     	if(this.mode === playMode.loop){
 		     		this.loop();
 		     	}
 		     	else{
+//		     		 this.songReady = true
 		     		this.next();
 		     	}
 		     },
