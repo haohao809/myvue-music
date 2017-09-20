@@ -35,7 +35,7 @@
 				<div class="progress">
 					<span class="time-s">{{format(currentTime)}}</span>
 					<div class="progress-bar">
-						
+						<progress-bar :percent="percent" @percentChange='percentChange'></progress-bar>
 					</div>
 					<span class="time-e">{{format(currentSong.duration)}}</span>
 				</div>
@@ -87,12 +87,16 @@
 <script>
 	import {mapGetters,mapMutations} from 'vuex'
 	import animations from 'create-keyframe-animation'
+	import ProgressBar from 'base/progress-bar/progress-bar'
 	export default{
 		data(){
 			return {
 				songReady: false,
 				currentTime: 0,
 			}
+		},
+		components:{
+			ProgressBar
 		},
 		computed:{
 			cdCls(){
@@ -103,6 +107,9 @@
 			},
 			miniIcon(){
 				return this.playing ?'icon-pause-mini' : 'icon-play-mini'
+			},
+			percent(){
+				return this.currentTime / this.currentSong.duration
 			},
 			...mapGetters([
 				'fullScreen',
@@ -264,6 +271,10 @@
 			 		y,
 			 		scale
 			 	}
+			 },
+			 percentChange(percent){
+			 	const  currentTime = this.currentSong.duration*percent;
+			 	this.currentTime = this.$refs.audio.currentTime = currentTime;
 			 }
 		}
 	}
@@ -461,6 +472,19 @@
 	.icon-playlist{
 		font-size: 30px;
 		color: rgba(255,205,49,0.5);
+	}
+	.time-s,.time-e{
+		font-size: 12px;
+		width: 30px;
+	}
+	.time-s{
+		text-align: left;
+	}
+	.time-e{
+		text-align: right;
+	}
+	.progress-bar{
+		flex:1;
 	}
 	@keyframes rotate{
 	 0%{
