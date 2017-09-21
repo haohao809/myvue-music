@@ -82,6 +82,7 @@
 		</div>
 		<audio ref='audio' :src='currentSong.url' @play="ready" @error="error" @timeupdate="timeupdate"
 			@ended="end" @pause="paused"></audio>
+		<p>{{currentSong}}</p>
 	</div>
 </template>
 
@@ -103,6 +104,9 @@
 		components:{
 			ProgressBar,
 			ProgressCircle
+		},
+		mounted() {
+			console.log(this.currentSong);
 		},
 		computed:{
 			cdCls(){
@@ -145,6 +149,7 @@
 			 	clearTimeout(this.timer)
 			 	 this.timer = setTimeout(() => {
 		          this.$refs.audio.play()
+//		          this.getLyric()
 		        }, 1000)
 			 },
 			 playing(newPalying){
@@ -338,6 +343,11 @@
 			 percentChange(percent){
 			 	const  currentTime = this.currentSong.duration*percent;
 			 	this.currentTime = this.$refs.audio.currentTime = currentTime;
+			 },
+			 getLyric(){
+			 	this.currentSong.getLyric().then((lyric) => {
+			 		console.log(lyric);
+			 	})
 			 }
 		}
 	}
