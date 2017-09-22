@@ -82,7 +82,6 @@
 		</div>
 		<audio ref='audio' :src='currentSong.url' @play="ready" @error="error" @timeupdate="timeupdate"
 			@ended="end" @pause="paused"></audio>
-		<p>{{currentSong}}</p>
 	</div>
 </template>
 
@@ -149,7 +148,7 @@
 			 	clearTimeout(this.timer)
 			 	 this.timer = setTimeout(() => {
 		          this.$refs.audio.play()
-//		          this.getLyric()
+		          this.getLyric()
 		        }, 1000)
 			 },
 			 playing(newPalying){

@@ -106,6 +106,7 @@
 				this.$router.back()
 			},
 			selectItem(song, index){
+//				console.log(this.songs);
 				this.selectPlay({
 					list:this.songs,
 					index
