@@ -162,7 +162,10 @@
 			     }
 		        if (newSong.id === oldSong.id) {
 		          return
-		        }			 	
+		        }
+		        if(this.currentLyric){
+		        	this.currentLyric.stop()
+		        }
 			 	this.songReady = false;
 			 	clearTimeout(this.timer)
 			 	 this.timer = setTimeout(() => {
@@ -245,6 +248,9 @@
 		          return
 		       }
 				this.setPlayingState(!this.playing)
+				if(this.currentLyric){
+					this.currentLyric.togglePlay()
+				}
 			},
 			changeMode(){
 //				console.log(this.mode);
@@ -298,6 +304,9 @@
 		     	this.currentTime = 0;
 		     	this.$refs.audio.play();
 		     	this.setPlayingState(true);
+		     	if(this.currentLyric){
+		     		this.currntLyric.seek(0)
+		     	}
 		     },
 		     paused(){
 		     	this.setPlayingState(false);
@@ -361,6 +370,9 @@
 			 percentChange(percent){
 			 	const  currentTime = this.currentSong.duration*percent;
 			 	this.currentTime = this.$refs.audio.currentTime = currentTime;
+			 	if(this.currentLyric){
+			 		this.currentLyric.seek(currentTime*1000)
+			 	}
 			 },
 			 getLyric(){
 			 	this.currentSong.getLyric().then((lyric) => {
