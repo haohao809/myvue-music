@@ -369,6 +369,9 @@
 			 			return
 			 		}
 			 		this.currentLyric = new Lyric(lyric,this.handleLyric)
+			 		if(this.playing){
+			 			this.currentLyric.play()
+			 		}
 			 	}).catch(()=>{
 			 		this.currentLyric = null
 			 		this.playingLyric = ''
