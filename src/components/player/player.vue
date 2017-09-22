@@ -25,17 +25,18 @@
 						</div>
 				</div>
 				</div>
-				<div class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
+				<scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
 					<div class="lyric-wrapper">
 						<div v-if="currentLyric">
 							<p ref="lyricLine"
 								class="text"
+								:class="{'current' : currentLineNum === index }"
 								v-for="(line,index) in currentLyric.lines"
 								>{{line.txt}}</p>
 						</div>
 					</div>
 					
-				</div>
+				</scroll>
 			
 			</div>
 			<div class="bottom">
@@ -104,6 +105,7 @@
 	import {playMode} from 'common/js/config'
 	import {shuffle} from 'common/js/util'
 	import Lyric from 'lyric-parser'
+	import Scroll from 'base/scroll/scroll'
 	export default{
 		data(){
 			return {
@@ -118,7 +120,8 @@
 		},
 		components:{
 			ProgressBar,
-			ProgressCircle
+			ProgressCircle,
+			Scroll
 		},
 		mounted() {
 			console.log(this.currentSong);
@@ -373,10 +376,12 @@
 			 	})
 			 },
 			 handleLyric({lineNum,txt}){
+			 	console.log(123);
 			 	if(!this.$refs.lyricLine){
 			 		return
 			 	}
-			 	this.currentLIneNum = lineNum;
+			 	this.currentLineNum = lineNum;
+			 	console.log(this.currentLineNum);
 			 	if(lineNum > 5){
 			 		let lineEl = this.$refs.lyricLine[lineNum-5];
 			 		this.$refs.lyricList.scrollToElement(lineEl,1000)
@@ -467,6 +472,28 @@
 		width: 100%;
 		padding-top: 80%;
 		height: 0;
+	}
+	.middle-r{
+		display: inline-block;
+		width: 100%;
+		height: 100%;
+		vertical-align: top;
+		position: absolute;
+		top: 0;
+		overflow: hidden;
+	}
+	.text{
+		font-size: 14px;
+		line-height: 32px;
+		color: rgba(255,255,255,0.5) ;
+	}
+	.current{
+		color: #FFF;
+	}
+	.lyric-wrapper{
+		margin: 0 auto;
+		text-align: center;
+		overflow: hidden;
 	}
 	.cd-wrapper{
 		position: absolute;
