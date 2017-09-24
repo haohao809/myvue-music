@@ -17,13 +17,22 @@
 				<h1  class="title"  v-html='currentSong.name'></h1>
 				<h2  class="subtitle"  v-html='currentSong.singer'></h2>
 			</div>
-			<div class="middle">
+			<div class="middle"
+				@touchstart.prevent="middleTouchStart"
+				@touchmove.prevent = "middleTouchMove"
+				@touvhend.prevent = "middleEnd"
+				>
 				<div class="middle-l">
 					<div class="cd-wrapper" ref='cdWrapper'>
 						<div class="cd" >
 							<img v-lazy="currentSong.imgage":class="cdCls" class="image"/>
 						</div>
-				</div>
+					</div>
+					<div class="playing-lyric-wrapper">
+						<div class="playing-lyric">
+							{{playingLyric}}
+						</div>
+					</div>
 				</div>
 				<scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
 					<div class="lyric-wrapper">
@@ -116,12 +125,16 @@
 				currentLineNum: 0,
 				currentShow: 'cd',
 				playingLyric: '',
+				playingLyric: ''
 			}
 		},
 		components:{
 			ProgressBar,
 			ProgressCircle,
 			Scroll
+		},
+		created() {
+			this.touch = {}
 		},
 		mounted() {
 			console.log(this.currentSong);
@@ -404,6 +417,31 @@
 			 		this.$refs.lyricList.scrollTo(0,0,1000)
 			 	}
 			 	this.playingLyric = txt
+			 },
+			 middleTouchStart(e){
+			 	this.touch.initiated = true;
+			 	this.touch.moved = false;
+			 	this.touch = e.touches[0];
+			 	this.touch.startX = touch.pageX;
+			 	this.touch.startY = touch.pageY;
+			 	
+			 },
+			 middleTouchMove(e){
+			 	if(!this.touch.initiated){
+			 		return
+			 	}
+			 	const touch = e.touches[0];
+			 	const deltaX = touch.pageX - this.touch.startX;
+			 	const deltaY = touch.pageY - this.touch.startY;
+			 	if(Math.abs(deltaY) > Math.abs(deltaX)){
+			 		return
+			 	}
+			 	if(!this.touch.moved){
+			 		this.touch.moved = true
+			 	}
+			 },
+			 middleTouchEnd(e){
+			 	
 			 }
 		}
 	}
@@ -639,6 +677,12 @@
 	}
 	.progress-bar{
 		flex:1;
+	}
+	.playing-lyric{
+		text-align: center;
+		font-size: 14px;
+		color: rgba(255,255,255,0.5);
+		padding-top: 30px;
 	}
 	@keyframes rotate{
 	 0%{
