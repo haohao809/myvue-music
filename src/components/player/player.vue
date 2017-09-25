@@ -20,9 +20,9 @@
 			<div class="middle"
 				@touchstart.prevent="middleTouchStart"
 				@touchmove.prevent = "middleTouchMove"
-				@touvhend.prevent = "middleEnd"
+				@touchend.prevent = "middleTouchEnd"
 				>
-				<div class="middle-l">
+				<div class="middle-l" ref="middleL">
 					<div class="cd-wrapper" ref='cdWrapper'>
 						<div class="cd" >
 							<img v-lazy="currentSong.imgage":class="cdCls" class="image"/>
@@ -389,7 +389,7 @@
 			 },
 			 getLyric(){
 			 	this.currentSong.getLyric().then((lyric) => {
-			 		console.log(lyric);
+//			 		console.log(lyric);
 			 		if(this.currentSong.lyric != lyric){
 			 			return
 			 		}
@@ -404,7 +404,6 @@
 			 	})
 			 },
 			 handleLyric({lineNum,txt}){
-			 	console.log(123);
 			 	if(!this.$refs.lyricLine){
 			 		return
 			 	}
@@ -421,10 +420,9 @@
 			 middleTouchStart(e){
 			 	this.touch.initiated = true;
 			 	this.touch.moved = false;
-			 	this.touch = e.touches[0];
+			 	const touch = e.touches[0];
 			 	this.touch.startX = touch.pageX;
 			 	this.touch.startY = touch.pageY;
-			 	
 			 },
 			 middleTouchMove(e){
 			 	if(!this.touch.initiated){
@@ -439,9 +437,46 @@
 			 	if(!this.touch.moved){
 			 		this.touch.moved = true
 			 	}
+			 	const left = this.currentShow === 'cd' ? 0 : -window.innerWidth;
+			 	const offsetWidth = Math.min(0,Math.max(-window.innerWidth,left + deltaX));
+//			 	console.log(offsetWidth);
+			 	this.touch.percent = Math.abs(offsetWidth / window.innerWidth);
+			 	this.$refs.lyricList.$el.style.transform = `translate3d(${offsetWidth}px,0,0)`;
+			 	this.$refs.lyricList.$el.style.transitionDuration = 0;
+			 	this.$refs.middleL.style.opacity = 1 - this.touch.percent
+			 	this.$refs.middleL.style.transitionDuration = 0
 			 },
 			 middleTouchEnd(e){
-			 	
+			 	if(!this.touch.moved){
+			 		this.touch.moved = true
+			 	}
+			 	let offsetWidth
+			 	let opacity
+//			 	console.log(this.currentShow);
+			 	if(this.currentShow === 'cd'){
+			 		if(this.touch.percent > 0.1){
+			 			offsetWidth = -window.innerWidth
+			 			opacity = 0
+			 		}else{
+			 			offsetWidth = 0
+			 			opacity =1
+			 		}
+			 	}else{
+			 		if(this.touch.percent  < 0.9){
+			 			offsetWidth = 0
+			 			opacity =1
+			 			this.currentShow ='cd'
+			 		}else{
+			 			offsetWidth = -window.innerWidth
+			 			opacity = 0
+			 		}
+			 	}
+			 	const time =300
+			 	this.$refs.lyricList.$el.style.transform = `translate3d(${offsetWidth}px,0,0)`
+			 	this.$refs.lyricList.$el.style.transitionDuration = `${time}ms`
+			 	this.$refs.middleL.style.opacity = opacity
+			 	this.$refs.middleL.style.transitionDuration = `${time}ms`
+			 	this.touch.initiated = false
 			 }
 		}
 	}
@@ -525,6 +560,7 @@
 		width: 100%;
 		padding-top: 80%;
 		height: 0;
+		display: inline-block;
 	}
 	.middle-r{
 		display: inline-block;
@@ -533,6 +569,7 @@
 		vertical-align: top;
 		position: absolute;
 		top: 0;
+		left: 100%;
 		overflow: hidden;
 	}
 	.text{
@@ -682,7 +719,7 @@
 		text-align: center;
 		font-size: 14px;
 		color: rgba(255,255,255,0.5);
-		padding-top: 30px;
+		padding-top: 20px;
 	}
 	@keyframes rotate{
 	 0%{
