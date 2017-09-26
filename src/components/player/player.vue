@@ -50,8 +50,8 @@
 			</div>
 			<div class="bottom">
 				<div class="dot-wrapper">
-					<span class="dot"></span>
-					<span class="dot"></span>
+					<span class="dot" :class="{active:currentShow==='cd'}"></span>
+					<span class="dot" :class="{active:currentShow==='lyric'}"></span>
 				</div>
 				<div class="progress">
 					<span class="time-s">{{format(currentTime)}}</span>
@@ -457,9 +457,11 @@
 			 		if(this.touch.percent > 0.1){
 			 			offsetWidth = -window.innerWidth
 			 			opacity = 0
+			 			this.currentShow = 'lyric'
 			 		}else{
 			 			offsetWidth = 0
 			 			opacity =1
+			 			this.currentShow = 'cd'
 			 		}
 			 	}else{
 			 		if(this.touch.percent  < 0.9){
@@ -469,6 +471,7 @@
 			 		}else{
 			 			offsetWidth = -window.innerWidth
 			 			opacity = 0
+			 			this.currentShow = 'lyric'
 			 		}
 			 	}
 			 	const time =300
@@ -720,6 +723,11 @@
 		font-size: 14px;
 		color: rgba(255,255,255,0.5);
 		padding-top: 20px;
+	}
+	.active{
+		width: 20px;
+        border-radius: 5px;
+        background: rgba(255,255,255,0.5)
 	}
 	@keyframes rotate{
 	 0%{
