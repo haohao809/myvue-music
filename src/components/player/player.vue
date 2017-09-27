@@ -577,8 +577,11 @@
 	}
 	.text{
 		font-size: 14px;
-		line-height: 32px;
-		color: rgba(255,255,255,0.5) ;
+		line-height: 20px;
+		color: rgba(255,255,255,0.5);
+		flex: 1;
+		display:flex;
+		flex-direction: column;
 	}
 	.current{
 		color: #FFF;
@@ -679,14 +682,12 @@
 	.imgWrapper img{
 		border-radius: 50%;
 	}
-	.text{
-		flex: 1;
-	}
+
 	.name{
 		font-size: 14px;
 	}
 	.desc{
-		 padding-top: 10px;
+		 /*padding-top: 10px;*/
 		 font-size: 12px;
 		color: rgba(250,250,250,0.3);
 	}
