@@ -1,6 +1,6 @@
 <template>
-	<div class="singer">
-		<list-view :data = 'singers' @select='selectSinger'></list-view>
+	<div class="singer" ref="singer">
+		<list-view :data = 'singers' @select='selectSinger' ref="list"></list-view>
 		<router-view></router-view>
 	</div>
 </template>
@@ -10,8 +10,10 @@
 	import {getSingerList} from 'api/singer'
 	import Singer from 'common/js/singer'
 	import {mapMutations} from 'vuex'
+	import {playlistMixin} from 'common/js/mixin'
 //	console.log(Singer);
 	export default {
+		 mixins: [playlistMixin],
 		components:{
 			ListView
 		},
@@ -84,6 +86,12 @@
 				this.setSinger(item)
 //				this.$store.commit('SET_SINGER',item);
 			},
+			handlePlaylist(playList){
+				console.log(123);
+				const bottom = playList.length > 0 ? '60px' : ''
+				this.$refs.singer.style.bottom = bottom;
+				this.$refs.list.refresh();
+			},
 			...mapMutations({
          	setSinger: 'SET_SINGER'
       		})
@@ -94,7 +102,7 @@
 
 <style scoped>
 	.singer{
-		position: absolute;
+		position: fixed;
 		top:106px;
 		bottom: 0;
 		width: 100%;

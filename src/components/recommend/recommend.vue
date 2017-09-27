@@ -1,5 +1,5 @@
 <template>
-	<div class="recommend">
+	<div class="recommend" ref="recommend">
 		<scroll ref="scroll" :data="discList" class="recommend-content">
 			<div>
 			<div class="slider-show" @mouseover="closeAuto" @mouseout="autoSlider" @click="linkUrl">
@@ -42,7 +42,9 @@
 	import {getRecommend,getDiscList} from 'api/recommend'
 	import Scroll from 'base/scroll/scroll'
 	import Loading from 'base/loading/loading'
+	import {playlistMixin} from 'common/js/mixin'
 	export default{
+		mixins:[playlistMixin],
 		data (){
 			return{
 				sliders: [],
@@ -64,6 +66,11 @@
 			this.closeAuto()
 		},
 		methods: {
+			handlePlaylist(playList){
+				const bottom = playList.length > 0 ? '60px' : ''
+				this.$refs.recommend.style.bottom = bottom;
+				this.$refs.scroll.refresh();
+			},
 			_getRecommend(){
 				getRecommend().then((res)=>{
 					if(res.code==0){

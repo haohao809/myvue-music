@@ -29,7 +29,9 @@
 	import SongList from 'base/song-list/song-list'
 	import Scroll from 'base/scroll/scroll'
 	import {mapActions} from 'vuex'
+	import {playlistMixin} from 'common/js/mixin'
 	export default {
+		mixins:[playlistMixin],
 		props:{
 			title :{
 				type:String,
@@ -72,7 +74,7 @@
 //				console.log(newY);
 				let translateY = Math.max(this.minTranslateY,newY);
 				let scale = 1;
-				console.log(translateY);
+//				console.log(translateY);
 				let zIndex = 0;
 				let blur = 0;
 				const percent = Math.abs(newY/this.imageHeight);
@@ -120,7 +122,12 @@
 			...mapActions([
 				'selectPlay',
 				'randomPlay'
-			])
+			]),
+			handlePlaylist(playList){
+				const bottom = playList.length > 0 ? '60px' : ''
+				this.$refs.list.$el.style.bottom = bottom;
+				this.$refs.list.refresh();
+			}
 		}
 		
 	}

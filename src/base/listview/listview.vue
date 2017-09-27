@@ -35,6 +35,7 @@
 <script>
 	import Scroll from 'base/scroll/scroll'
 	import Loading from 'base/loading/loading'
+
 	export default {
 		props:{
 			data:{
@@ -118,7 +119,7 @@
 			selectSinger(item){
 //				console.log(item.id);
 				this.$emit('select',item);
-			}
+			},
 		},
 		watch:{
 			data(){
