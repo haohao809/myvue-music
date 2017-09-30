@@ -103,7 +103,7 @@
 <style scoped>
 	.singer{
 		position: fixed;
-		top:106px;
+		top:95px;
 		bottom: 0;
 		width: 100%;
 	}

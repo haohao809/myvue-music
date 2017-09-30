@@ -1,10 +1,11 @@
 <template>
-	<music-list></music-list>
+	<music-list :songs="songs"></music-list>
 </template>
 
 <script>
 	import MusicList from 'components/music-list/music-list'
 	import {getSongList} from 'api/recommend'
+	import {createSong} from 'common/js/song'
 	export default{
 		components:{
 			MusicList
@@ -12,9 +13,9 @@
 		data(){
 			return {
 				disc :{
-					id: 3579013188
+					id: 1769127980
 				},
-				song:[]
+				songs:[]
 			}
 		},
 		created(){
@@ -25,7 +26,9 @@
 				
 				getSongList(this.disc.id).then((res)=>{
 					if(res.code == 0){
-						console.log(res.cdlist[0].songlist);
+						console.log(res);
+//						console.log(res.cdlist[0].songlist);
+//						this.songs = this.normalize(res.cdlist[0].songlist);
 					}
 				})
 				
@@ -34,9 +37,10 @@
 				let res=[];
 				list.forEach((data) =>{
 					if(data.songid && data.albummid){
-						res.push(data);
+						res.push(createSong(data));
 					}
 				})
+				return ret
 			}
 			
 			

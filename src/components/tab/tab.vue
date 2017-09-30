@@ -16,7 +16,7 @@
 	@import "~common/stylus/variable"
 	.tab-ul
 		display: flex
-		margin-top: 10px
+		/*margin-top: 10px*/
 		height: 44px
 		line-height: 44px
 		font-size: $font-size-medium

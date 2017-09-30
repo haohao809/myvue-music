@@ -147,7 +147,7 @@
 		position: fixed;
     	width: 100%;
     	bottom: 0;
-    	top: 106px;
+    	top: 95px;
 	}	
 	.recommend-content{
 		height: 100%;
