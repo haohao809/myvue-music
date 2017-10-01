@@ -1,5 +1,7 @@
 <template>
+	<transition name="slide">
 	<music-list :songs="songs" :title="title" :bg-img="bgImg"></music-list>
+	</transition>
 </template>
 
 <script>
@@ -35,8 +37,8 @@
 				getSongList(this.disc.dissid).then((res)=>{
 					if(res.code == 0){
 						console.log(res);
-//						console.log(res.cdlist[0].songlist);
-//						this.songs = this.normalize(res.cdlist[0].songlist);
+						console.log(res.cdlist[0].songlist);
+						this.songs = this.normalize(res.cdlist[0].songlist);
 					}
 				})
 				
@@ -57,4 +59,10 @@
 </script>
 
 <style>
+	.slide-enter-active,.slide-leave-active{
+		transition: all ease  0.3s
+	}
+	.slide-enter,.slide-leave-to{
+		transform: translateX(100%);
+	}
 </style>
