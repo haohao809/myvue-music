@@ -4,7 +4,7 @@
 			<i class="icon"></i>			
 		</div>
 		<h1 class="title">{{title}}</h1>
-		<div class="bg-image" :style="bgStyle"ref='bgImage'>
+		<div class="bg-image"  :style="bgStyle" ref='bgImage'>
 			<div class="play-wrapper" ref="playBtn" @click='random'>
 				<div class="play">
 					<i class="icon-play"></i>

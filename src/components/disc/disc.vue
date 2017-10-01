@@ -1,20 +1,28 @@
 <template>
-	<music-list :songs="songs"></music-list>
+	<music-list :songs="songs" :title="title" :bg-img="bgImg"></music-list>
 </template>
 
 <script>
 	import MusicList from 'components/music-list/music-list'
 	import {getSongList} from 'api/recommend'
 	import {createSong} from 'common/js/song'
+	import {mapGetters} from 'vuex'
 	export default{
 		components:{
 			MusicList
 		},
+		computed:{
+			title(){
+				console.log(this.disc);
+				return this.disc.dissname
+			},
+			bgImg() {
+	        	return this.disc.imgurl
+	        },
+			...mapGetters(['disc'])
+		},
 		data(){
 			return {
-				disc :{
-					id: 1769127980
-				},
 				songs:[]
 			}
 		},
@@ -24,7 +32,7 @@
 		methods:{
 			_getSongList(){
 				
-				getSongList(this.disc.id).then((res)=>{
+				getSongList(this.disc.dissid).then((res)=>{
 					if(res.code == 0){
 						console.log(res);
 //						console.log(res.cdlist[0].songlist);
