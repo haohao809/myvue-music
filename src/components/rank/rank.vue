@@ -2,7 +2,7 @@
 	<div class="rank" ref="rank">
 		<scroll class="top-list" :data='topList'>
 			<ul>
-				<li v-for="(item,index) in topList" class="item">
+				<li v-for="(item,index) in topList" class="item" @click="selectItem(item)">
 					<div class="icon">
 						<img width="100" height="100" :src="item.picUrl"/>
 					</div>
@@ -14,12 +14,17 @@
 					</ul>
 				</li>
 			</ul>
+			<div class="loading" v-show = "!topList.length">
+				<loading></loading>
+			</div>
 		</scroll>
+		<router-view></router-view>
 	</div>
 </template>
 
 <script>
 	import {getTopList} from 'api/rank'
+	import Loading from 'base/loading/loading'
 	import Scroll from 'base/scroll/scroll'
 	export default{
 		data(){
@@ -28,10 +33,10 @@
 			}
 		},
 		components:{
-			Scroll
+			Scroll,
+			Loading
 		},
 		created(){
-			
 			this._getTopList();
 		},
 		methods:{
@@ -45,6 +50,13 @@
 					console.log(error)
 				})
 				console.log(this.topList)
+			},
+			selectItem(val){
+				console.log(val);
+				this.$router.push({
+					path: `rank/${val.id}`
+				})
+				
 			}
 		}
 	}
@@ -52,12 +64,13 @@
 
 <style scoped lang="scss">
 	.rank{
-		position: absolute;
-		top:88px;
+		position: fixed;
+		top:95px;
 		bottom: 0;
 		width: 100%;
 		.top-list{
 			height: 100%;
+			overflow: hidden;
 			.item{
 				display: flex;
 				margin: 0 20px;
@@ -82,6 +95,12 @@
 				}
 				
 			}
+		}
+		.loading{
+			position: absolute;
+			width: 100%;
+			top: 50%;
+			transform: translateY(-50%);
 		}
 	}
 </style>
