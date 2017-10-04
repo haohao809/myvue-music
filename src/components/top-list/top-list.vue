@@ -1,5 +1,5 @@
 <template>
-	<transition>
+	<transition name='slide'>
 		<music-list :songs ='songs' :bgImg='bgImg'></music-list>
 	</transition>
 </template>
@@ -45,7 +45,7 @@
 					console.log(res);
 					if(res.code === 0){
 						this.songs = this.normalizeSongs(res.songlist);
-						console.log(this.songs);
+//						console.log(this.songs);
 					}
 				}).catch((error) =>{
 					console.log(error)
@@ -68,5 +68,11 @@
 	}
 </script>
 
-<style>
+<style scoped>
+	.slide-enter-active,.slide-leave-active{
+		transition: all ease .3s;
+	}
+	.slide-enter.slide-leave-to{
+		transform: translateX(100%);
+	}
 </style>

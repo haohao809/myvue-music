@@ -1,6 +1,6 @@
 <template>
 	<div class="rank" ref="rank">
-		<scroll class="top-list" :data='topList'>
+		<scroll class="top-list" :data='topList' ref="toplist">
 			<ul>
 				<li v-for="(item,index) in topList" class="item" @click="selectItem(item)">
 					<div class="icon">
@@ -26,7 +26,9 @@
 	import {getTopList} from 'api/rank'
 	import Loading from 'base/loading/loading'
 	import Scroll from 'base/scroll/scroll'
+	import {playlistMixin} from 'common/js/mixin'
 	export default{
+		mixins: [playlistMixin],
 		data(){
 			return{
 				topList:[]
@@ -40,6 +42,11 @@
 			this._getTopList();
 		},
 		methods:{
+			handlePlaylist(playList){
+				const bottom = playList.length > 0 ? '60px' : ''
+				this.$refs.rank.style.bottom = bottom
+				this.$refs.toplist.refresh()
+			},
 			_getTopList(){
 				getTopList().then((res) =>{
 					if(res.code === 0){
