@@ -1,24 +1,26 @@
 <template>
 	<transition name='slide'>
-		<music-list :songs ='songs' :bgImg='bgImg'></music-list>
+		<music-list :songs ='songs'  :title= 'title' :bgImg='bgImg'></music-list>
 	</transition>
 </template>
 
 <script>
 	import MusicList from 'components/music-list/music-list'
 	import {getMusicList} from 'api/rank'
+	import {mapGetters} from 'vuex'
 	import {createSong} from 'common/js/song'
 	export default {
+		props: ['title'],
 		computed : {
-			title(){
-				return this.topList.topTitle
-			},
+//			title(){
+//				return this.topList.topTitle
+//			},
 			bgImg(){
 				if(this.songs.length){
 					return this.songs[0].imgage
 				}
 				return ''
-			}
+			},
 		},
 		data() {
 			return {

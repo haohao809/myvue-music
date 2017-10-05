@@ -18,7 +18,7 @@
 				<loading></loading>
 			</div>
 		</scroll>
-		<router-view></router-view>
+		<router-view :title = 'title'></router-view>
 	</div>
 </template>
 
@@ -31,7 +31,8 @@
 		mixins: [playlistMixin],
 		data(){
 			return{
-				topList:[]
+				topList:[],
+				title: ''
 			}
 		},
 		components:{
@@ -60,6 +61,7 @@
 			},
 			selectItem(val){
 				console.log(val);
+				this.title = val.topTitle;
 				this.$router.push({
 					path: `rank/${val.id}`
 				})
