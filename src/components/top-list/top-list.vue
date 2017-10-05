@@ -74,7 +74,7 @@
 	.slide-enter-active,.slide-leave-active{
 		transition: all ease .3s;
 	}
-	.slide-enter.slide-leave-to{
+	.slide-enter,.slide-leave-to{
 		transform: translateX(100%);
 	}
 </style>
