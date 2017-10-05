@@ -2,7 +2,7 @@
 	<div class="song-list">
 		<ul>
 			<li v-for='(song, index) in songs' class="item" @click="selectItem(song,index)">
-				<div class="rank" >
+				<div class="rank" v-show='rank'>
 					<span :class='getRankCls(index)' v-text="getRankText(index)"></span>
 				</div>
 				<div class="content">
@@ -20,6 +20,10 @@
 			songs: {
 				type: Array,
 				default: []
+			},
+			rank:{
+				type:Boolean,
+				default: false
 			}
 		},
 //		created(){

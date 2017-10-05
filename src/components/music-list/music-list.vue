@@ -19,7 +19,7 @@
 		</div>
 		<scroll  class="list" :data='songs' ref='list' :listen-scroll='listenScroll' :probeType='probeType' @scroll='scroll'>
 			<div class="song-list-wrapper">
-				<song-list :songs='songs' @select='selectItem'></song-list>
+				<song-list :songs='songs' @select='selectItem' :rank='rank'></song-list>
 			</div>
 		</scroll>
 	</div>
@@ -44,7 +44,11 @@
 			songs :{
 				type :Array,
 				default: []
-			}
+			},
+			rank: {
+		        type: Boolean,
+		        default: false
+	      }
 		},
 		data() {
 			return {
