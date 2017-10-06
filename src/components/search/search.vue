@@ -17,15 +17,20 @@
 				</div>
 			</div>
 		</div>
+		<div class="search-result">
+			<suggest></suggest>
+		</div>
 	</div>
 </template>
 
 <script>
 	import SearchBox from 'base/search-box/search-box'
 	import {getHotKey} from 'api/search' 
+	import Suggest from 'components/suggest/suggest'
 	export default {
 		components:{
-			SearchBox
+			SearchBox,
+			Suggest
 		},
 		created(){
 			this._getHotKey();

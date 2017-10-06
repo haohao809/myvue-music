@@ -29,7 +29,7 @@
 		},
 		created(){
 			this.$watch('query',(newquery) =>{
-				this.$emit('query',newQuery);
+				this.$emit('query',newquery);
 			})
 		}
 	}
