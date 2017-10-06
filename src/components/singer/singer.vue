@@ -30,7 +30,7 @@
 				getSingerList().then((res) => {
 					if(res.code == 0){
 						this.singers = this.normalizeSinger(res.data.list);
-						console.log(this.singers);
+//						console.log(this.singers);
 					}
 				})
 				

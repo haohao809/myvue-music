@@ -44,10 +44,10 @@
 				
 			},
 			normalize(list){
-				let res=[];
+				let ret=[];
 				list.forEach((data) =>{
 					if(data.songid && data.albummid){
-						res.push(createSong(data));
+						ret.push(createSong(data));
 					}
 				})
 				return ret

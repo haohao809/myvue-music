@@ -66,9 +66,9 @@
 			}
 		},
 		methods:{
-			_init(){
-				console.log(this.data);
-			},
+//			_init(){
+//				console.log(this.data);
+//			},
 			onTouchstart(e){
 				let firstTouch = e.touches[0]
 				console.log(firstTouch);
