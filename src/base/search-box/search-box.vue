@@ -1,12 +1,35 @@
 <template>
 	<div class="search-input">
 		<i class='icon-search'></i>
-		<input :placeholder="placeholder"/>
+		<input :placeholder="placeholder" v-model="query"/>
+		<i class='icon-dismiss' v-show='query' @click='clear'></i>
 	</div>
 </template>
 
 <script>
-
+	export default{
+		data(){
+			return {
+				query:''
+			}
+		},
+		props:{
+			placeholder:{
+				type: String,
+				default: '搜索歌曲、歌手'
+			}
+		},
+		methods:{
+			clear(){
+				this.query = '';
+			},
+		},
+		created(){
+			this.$watch('query',(newquery) =>{
+				this.$emit('query',newQuery);
+			})
+		}
+	}
 </script>
 
 <style lang='scss' scoped>
@@ -15,17 +38,26 @@
 		background: #333;
 		width: 100%;
 		height: 40px;
+		display: flex;
+		align-items: center;
+		border-radius: 6px;
+		padding: 0 6px;
+		box-sizing: border-box;
 		.icon-search{
 			font-size: 24px;
 			color: #222;
-			padding-top: 10px;
-			display: inline-block;
+		}
+		.icon-dismiss{
+			font-size: 16px;
+			color: #222;
 		}
 		input{
 			background: #333;
 			color: #fff;
 			margin: 0 5px;
-			outline: none;		
+			outline: none;	
+			flex: 1;
+			font-size: 14px;
 		}
 	}
 </style>
