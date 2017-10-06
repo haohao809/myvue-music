@@ -23,6 +23,9 @@
 			clear(){
 				this.query = '';
 			},
+			setQuery(query){
+				this.query = query;
+			},
 		},
 		created(){
 			this.$watch('query',(newquery) =>{
