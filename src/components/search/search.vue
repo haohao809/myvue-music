@@ -1,7 +1,7 @@
 <template>
 	<div class="search">
 		<div class="search-box">
-			<search-box ref='searchBox'></search-box>
+			<search-box ref='searchBox' @query="onQueryChange"></search-box>
 		</div>
 		<div class="shortcut-wrapper">
 			<div class="shortcut">
@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="search-result">
-			<suggest></suggest>
+			<suggest :query='query'></suggest>
 		</div>
 	</div>
 </template>
@@ -37,7 +37,8 @@
 		},
 		data(){
 			return {
-				hotKey: []
+				hotKey: [],
+				query: ''
 			}
 		},
 		methods:{
@@ -54,6 +55,14 @@
 			addQuery(item){
 				this.$refs.searchBox.setQuery(item.k);
 			},
+			onQueryChange(query){
+				this.query = query;
+			}
+		},
+		watch:{
+			query(newQuery){
+				
+			}
 		}
 	}
 </script>
