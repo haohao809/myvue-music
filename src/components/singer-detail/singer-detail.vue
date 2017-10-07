@@ -53,6 +53,7 @@
 			},
 			normalizeSongs(list){
 				let res = [];
+//				console.log(list)
 				list.forEach((item) =>{
 					 let {musicData} = item
 					 if(musicData.songid && musicData.albummid){
