@@ -35,10 +35,10 @@
 	 		search(query){
 	 			search(query,this.page,this.showSinger,20)
 	 			.then((res) =>{
-	 				console.log(res);
+//	 				console.log(res);
 	 				if(res.code ===0){
 	 					this.result = this.getResult(res.data);
-	 					console.log(this.result);
+//	 					console.log(this.result);
 	 				}
 	 			})
 	 		},

@@ -1,10 +1,10 @@
 <template>
 	<div class="search">
 		<div class="search-box">
-			<search-box ref='searchBox' @query="onQueryChange"></search-box>
+			<search-box ref='searchBox'></search-box>
 		</div>
 		<div class="shortcut-wrapper">
-			<div class="shortcut">
+			<div class="shortcut" v-show='!query'>
 				<div>
 					<div class="hot-key">
 						<h1 class="title">热门搜索</h1>
@@ -17,7 +17,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="search-result">
+		<div class="search-result" v-show='query'>
 			<suggest></suggest>
 		</div>
 	</div>
@@ -27,6 +27,7 @@
 	import SearchBox from 'base/search-box/search-box'
 	import {getHotKey} from 'api/search' 
 	import Suggest from 'components/suggest/suggest'
+	import {mapGetters} from 'vuex'
 	export default {
 		components:{
 			SearchBox,
@@ -38,8 +39,11 @@
 		data(){
 			return {
 				hotKey: [],
-				query: ''
+//				query: ''
 			}
+		},
+		computed:{
+			...mapGetters(['query'])
 		},
 		methods:{
 			_getHotKey(){
@@ -55,13 +59,10 @@
 			addQuery(item){
 				this.$refs.searchBox.setCurQuery(item.k);
 			},
-			onQueryChange(query){
-				this.query = query;
-			}
 		},
 		watch:{
 			query(newQuery){
-				
+				this.query = newQuery
 			}
 		}
 	}
