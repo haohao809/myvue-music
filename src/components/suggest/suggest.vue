@@ -1,12 +1,12 @@
 <template>
 	<div class="suggest">
-		<ul>
-			<li v-for="item in result">
+		<ul class='suggest-list'>
+			<li v-for="item in result" class="suggest-item">
 				<div class="icon">
 					<i :class="getIcon(item)"></i>
 				</div>
 				<div class="name">
-					<p :class="getTextName(item)"></p>
+					<p v-html="getTextName(item)"></p>
 				</div>
 			</li>
 		</ul>
@@ -22,7 +22,7 @@
 	 	props :{
 	 		showSinger:{
 	 			type:Boolean,
-	 			default:false
+	 			default:true
 	 		}
 	 	},
 	 	data(){
@@ -38,6 +38,7 @@
 	 				console.log(res);
 	 				if(res.code ===0){
 	 					this.result = this.getResult(res.data);
+	 					console.log(this.result);
 	 				}
 	 			})
 	 		},
@@ -53,7 +54,7 @@
 	 		},
 	 		normalizeSongs(list){
 	 			let res = [];
-	 			console.log(list);
+//	 			console.log(list);
 				list.forEach((musicData) =>{
 //					 console.log(musicData);
 					 if(musicData.songid && musicData.albummid){
@@ -63,12 +64,19 @@
 				return res
 	 		},
 	 		getIcon(item){
-	 			if(item.type === TYPE_SINGER){
+	 			if(item.type === 'singer'){
 	 				return 'icon-mine'
 	 			}else{
 	 				return 'icon-music'
 	 			}
-	 		}
+	 		},
+	 		getTextName(item){
+	 			if(item.type === 'singer'){
+	 				return item.singername
+	 			}else{
+	 				return `${item.name}-${item.singer}`
+	 			}
+	 	  }
 	 	},
 	 	computed:{
 	 		...mapGetters(['query'])
@@ -87,10 +95,30 @@
 </script>
 
 <style scoped lang='scss'>
-.icon-mine{
-	
+ .suggest-list{
+ 	padding: 0 30px;
+ 	.suggest-item{
+	display: flex;
+	align-items: center;
+	padding-bottom: 20px;
+	.icon{
+		width:30px;
+		.icon-mine{
+		font-size: 14px;
+		color: rgba(255,255,255,0.3);
+	}
+		.icon-music{
+			font-size: 14px;
+			color: rgba(255,255,255,0.3);
+		}
+	}
+
+	.name{
+		font-size: 14px;
+		color: rgba(255,255,255,0.3);
+	}
 }
-.icon-music{
-	
-}
+ }
+
+
 </style>
