@@ -61,9 +61,9 @@
 			},
 		},
 		watch:{
-			query(newQuery){
-				this.query = newQuery
-			}
+//			query(newQuery){
+//				this.query = newQuery
+//			}
 		}
 	}
 </script>
