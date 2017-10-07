@@ -24,6 +24,9 @@ const mutations = {
   },
 	[types.SET_DISC](state,disc) {
 		state.disc = disc
+	},
+	[types.SET_QUERY](state,query){
+		state.query = query
 	}
 	
 }

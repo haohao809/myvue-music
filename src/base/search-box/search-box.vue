@@ -7,6 +7,7 @@
 </template>
 
 <script>
+	import {mapMutations} from 'vuex'
 	export default{
 		data(){
 			return {
@@ -23,13 +24,18 @@
 			clear(){
 				this.query = '';
 			},
-			setQuery(query){
+			setCurQuery(query){
 				this.query = query;
 			},
+			...mapMutations({
+				setQuery: 'SET_QUERY'
+			})
 		},
 		created(){
 			this.$watch('query',(newquery) =>{
-				this.$emit('query',newquery);
+//				this.$emit('query',newquery);
+				console.log(newquery);
+				this.setQuery(newquery);
 			})
 		}
 	}

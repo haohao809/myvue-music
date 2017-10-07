@@ -4,16 +4,18 @@
 			<li></li>
 		</ul>
 	</div>
+	
 </template>
 
 <script>
 	import {search} from 'api/search'
+	import {mapGetters} from 'vuex'
 	 export default {
 	 	props :{
-	 		query:{
-	 			type:String,
-	 			default:''
-	 		},
+//	 		query:{
+//	 			type:String,
+//	 			default:''
+//	 		},
 	 		showSinger:{
 	 			type:Boolean,
 	 			default:false
@@ -25,18 +27,23 @@
 	 		}
 	 	},
 	 	methods:{
-	 		search(){
-	 			search(this.query,this.page,this.showSinger,20)
+	 		search(query){
+	 			search(query,this.page,this.showSinger,20)
 	 			.then((res) =>{
 	 				console.log(res);
 	 			})
-	 		}
+	 		},	 		
+	 	},
+	 	computed:{
+	 		...mapGetters(['query'])
 	 	},
 	 	watch:{
 	 		query(newquery){
+	 			console.log(newquery)
 	 			if(!newquery){
 	 				return
 	 			}
+	 			
 	 			this.search(newquery)
 	 		}
 	 	}

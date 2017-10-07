@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="search-result">
-			<suggest :query='query'></suggest>
+			<suggest></suggest>
 		</div>
 	</div>
 </template>
@@ -53,7 +53,7 @@
 				})
 			},
 			addQuery(item){
-				this.$refs.searchBox.setQuery(item.k);
+				this.$refs.searchBox.setCurQuery(item.k);
 			},
 			onQueryChange(query){
 				this.query = query;
