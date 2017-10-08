@@ -92,4 +92,10 @@
 			}
 		}
 	}
+	.search-result{
+		position: fixed;
+		top: 178px;
+		bottom: 0;
+		width: 100%;
+	}
 </style>

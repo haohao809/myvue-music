@@ -1,5 +1,5 @@
 <template>
-	<div class="suggest">
+	<scroll class="suggest" :data='result' ref='suggest'>
 		<ul class='suggest-list'>
 			<li v-for="item in result" class="suggest-item">
 				<div class="icon">
@@ -10,7 +10,7 @@
 				</div>
 			</li>
 		</ul>
-	</div>
+	</scroll>
 	
 </template>
 
@@ -18,7 +18,11 @@
 	import {search} from 'api/search'
 	import {mapGetters} from 'vuex'
 	import {createSong} from 'common/js/song'
+	import Scroll from 'base/scroll/scroll'
 	 export default {
+	 	components:{
+	 		Scroll
+	 	},
 	 	props :{
 	 		showSinger:{
 	 			type:Boolean,
@@ -32,6 +36,9 @@
 	 		}
 	 	},
 	 	methods:{
+	 		refresh() {
+		        this.$refs.suggest.refresh()
+		      },
 	 		search(query){
 	 			search(query,this.page,this.showSinger,20)
 	 			.then((res) =>{
@@ -95,6 +102,9 @@
 </script>
 
 <style scoped lang='scss'>
+.suggest{
+	height: 100%;
+	overflow: hidden;
  .suggest-list{
  	padding: 0 30px;
  	.suggest-item{
@@ -116,9 +126,9 @@
 	.name{
 		font-size: 14px;
 		color: rgba(255,255,255,0.3);
+		}
 	}
-}
  }
-
+}
 
 </style>
