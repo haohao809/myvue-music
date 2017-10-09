@@ -1,5 +1,10 @@
 <template>
-	<scroll class="suggest" :data='result' ref='suggest'>
+	<scroll class="suggest" 
+		:data='result' 
+		ref='suggest'
+		@scrollToEnd ='searchMore'
+		:pullup = 'pullup'
+		>
 		<ul class='suggest-list'>
 			<li v-for="item in result" class="suggest-item">
 				<div class="icon">
@@ -9,6 +14,7 @@
 					<p v-html="getTextName(item)"></p>
 				</div>
 			</li>
+		<loading v-show="hasMore" title=""></loading>
 		</ul>
 	</scroll>
 	
@@ -19,20 +25,26 @@
 	import {mapGetters} from 'vuex'
 	import {createSong} from 'common/js/song'
 	import Scroll from 'base/scroll/scroll'
+	import Loading from 'base/loading/loading'
 	 export default {
 	 	components:{
-	 		Scroll
+	 		Scroll,
+	 		Loading
 	 	},
 	 	props :{
 	 		showSinger:{
 	 			type:Boolean,
 	 			default:true
-	 		}
+	 		},
+	 		
 	 	},
 	 	data(){
 	 		return {
 	 			page:1,
-	 			result:[]
+	 			result:[],
+	 			pullup: true,
+	 			hasMore:true,
+	 			moreId : ''
 	 		}
 	 	},
 	 	methods:{
@@ -42,12 +54,29 @@
 	 		search(query){
 	 			search(query,this.page,this.showSinger,20)
 	 			.then((res) =>{
-//	 				console.log(res);
+	 				console.log(res);
 	 				if(res.code ===0){
 	 					this.result = this.getResult(res.data);
-//	 					console.log(this.result);
+	 					this.checkMore(res.data)
+	 					console.log(this.result);
 	 				}
 	 			})
+	 		},
+	 		searchMore(){
+	 			if(!this.hasMore){
+	 				return
+	 			}
+	 			this.page++;
+	 			search(this.moreId,this.page,this.showSinger,20)
+	 			.then((res) =>{
+	 				if(res.code===0){
+	 					this.result = this.result.concat(this.getResult(res.data));
+	 					this.checkMore(res.data);
+	 				}
+	 			})
+	 		},
+	 		checkMore(data){
+	 			console.log(data);
 	 		},
 	 		getResult(data){
 	 			let ret =[];
@@ -90,11 +119,11 @@
 	 	},
 	 	watch:{
 	 		query(newquery){
-	 			console.log(newquery)
+//	 			console.log(newquery)
 	 			if(!newquery){
 	 				return
 	 			}
-	 			
+	 			this.moreId = newquery;
 	 			this.search(newquery)
 	 		}
 	 	}
