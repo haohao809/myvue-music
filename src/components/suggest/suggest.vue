@@ -77,6 +77,10 @@
 	 		},
 	 		checkMore(data){
 	 			console.log(data);
+	 			const song = data.song;
+	 			if(!song.list.length || (song.curnum + (song.curpage-1)*20) >= song.totalnum){
+	 				this.hasMore = false;
+	 			}
 	 		},
 	 		getResult(data){
 	 			let ret =[];
