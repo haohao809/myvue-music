@@ -79,7 +79,7 @@
 				return hot.concat(res);
 			},
 			selectSinger(item){
-//				console.log(id);
+				console.log(item);
 				this.$router.push({
 					path: `/singer/${item.id}`
 				})

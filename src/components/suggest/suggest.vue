@@ -6,7 +6,7 @@
 		:pullup = 'pullup'
 		>
 		<ul class='suggest-list'>
-			<li v-for="item in result" class="suggest-item">
+			<li v-for="item in result" class="suggest-item" @click="selectItem(item)">
 				<div class="icon">
 					<i :class="getIcon(item)"></i>
 				</div>
@@ -22,10 +22,12 @@
 
 <script>
 	import {search} from 'api/search'
-	import {mapGetters} from 'vuex'
+	import {mapGetters,mapMutations,mapActions} from 'vuex'
 	import {createSong} from 'common/js/song'
 	import Scroll from 'base/scroll/scroll'
 	import Loading from 'base/loading/loading'
+	import Singer from 'common/js/singer'
+	
 	 export default {
 	 	components:{
 	 		Scroll,
@@ -116,7 +118,28 @@
 	 			}else{
 	 				return `${item.name}-${item.singer}`
 	 			}
-	 	  }
+	 	  },
+	 	  selectItem(item){
+	 	  	console.log(item);
+	 	  	if(item.type && item.type==='singer'){
+	 	  		const singer = new Singer({
+	 	  			id: item.singermid,
+            		name: item.singername
+	 	  		})
+	 	  		this.$router.push({
+					path: `/singer/${item.singermid}`
+				})
+	 	  		this.setSinger(singer);
+	 	  	}else{
+	 	  		this.insertSong(item); 
+	 	  	}
+	 	  },
+	 	  ...mapMutations({
+	        setSinger: 'SET_SINGER'
+	      }),
+	 	  ...mapActions([
+	 	  	'insertSong'
+	 	  ])
 	 	},
 	 	computed:{
 	 		...mapGetters(['query'])
