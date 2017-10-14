@@ -30,3 +30,34 @@ export const randomPlay = function({commit},{list}){
 	commit(types.SET_FULL_SCREEN,true)
 	commit(types.SET_PLAYING_STATE,true)
 }
+export const insertSong = function({commit,state},song){
+	let playList = state.playList.slice()
+	let sequenceList = state.sequenceList.slice()
+	let currentIndex = state.currentIndex
+	//记录当前歌曲
+	let currentSong = playList[currentIndex]
+	//查找当前列表中是否有待插入的歌曲并返回其索引
+	let fpIndex = findIndex(playList, song)
+	//删除要插入重复歌曲
+	if(fpIndex>-1){
+		playList.splice(fpIndex,1);
+	}
+	//插入歌曲，索引++
+	currentIndex++;
+	playList.splice(currentIndex,0,song)
+	
+	let currentSindex = findIndex(sequenceList, currentSong) + 1
+	let fsIndex = findIndex(sequenceList,song)
+	if(fsIndex > -1){
+		squenceList.splice(fsIndex,1)
+	}
+	sequenceList.splice(currentSindex,0,song)
+	
+	commit(types.SET_PLAYLIST,playList)
+	commit(types.SET_SEQUENCE_LIST, sequenceList)
+	commit(types.SET_CURRENT_INDEX, currentIndex)
+  	commit(types.SET_FULL_SCREEN, true)
+  	commit(types.SET_PLAYING_STATE, true)
+	
+	
+}
