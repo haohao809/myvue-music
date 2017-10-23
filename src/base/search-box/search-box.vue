@@ -8,6 +8,7 @@
 
 <script>
 	import {mapMutations} from 'vuex'
+	import {debounce}  from 'common/js/util'
 	export default{
 		data(){
 			return {
@@ -32,11 +33,11 @@
 			})
 		},
 		created(){
-			this.$watch('query',(newquery) =>{
+			this.$watch('query',debounce((newquery) =>{
 //				this.$emit('query',newquery);
-				console.log(newquery);
+//				console.log(newquery);
 				this.setQuery(newquery);
-			})
+			},200))
 		}
 	}
 </script>
