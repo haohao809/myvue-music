@@ -16,6 +16,9 @@
 			</li>
 		<loading v-show="hasMore" title=""></loading>
 		</ul>
+		<div class="no-result-wrapper" v-show="!hasMore && !result.length">
+			<no-result title="抱歉，暂无搜索结果"></no-result>
+		</div>
 	</scroll>
 	
 </template>
@@ -27,11 +30,13 @@
 	import Scroll from 'base/scroll/scroll'
 	import Loading from 'base/loading/loading'
 	import Singer from 'common/js/singer'
+	import NoResult from 'base/no-result/no-result'
 	
 	 export default {
 	 	components:{
 	 		Scroll,
-	 		Loading
+	 		Loading,
+	 		NoResult
 	 	},
 	 	props :{
 	 		showSinger:{
@@ -185,6 +190,12 @@
 		}
 	}
  }
+  .no-result-wrapper{
+  	width: 100%;
+  	top: 50%;
+  	position: absolute;
+  	transform: translateY(-50%);
+  }
 }
 
 </style>
