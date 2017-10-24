@@ -1,7 +1,7 @@
 <template>
 	<div class="search-input">
 		<i class='icon-search'></i>
-		<input :placeholder="placeholder" v-model="query"/>
+		<input :placeholder="placeholder" v-model="query" ref='query'/>
 		<i class='icon-dismiss' v-show='query' @click='clear'></i>
 	</div>
 </template>
@@ -30,7 +30,10 @@
 			},
 			...mapMutations({
 				setQuery: 'SET_QUERY'
-			})
+			}),
+			blur(){
+				this.$refs.query.blur();
+			}
 		},
 		created(){
 			this.$watch('query',debounce((newquery) =>{

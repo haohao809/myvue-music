@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="search-result" v-show='query'>
-			<suggest></suggest>
+			<suggest @listScroll = 'blurInput'></suggest>
 		</div>
 	</div>
 </template>
@@ -59,6 +59,9 @@
 			addQuery(item){
 				this.$refs.searchBox.setCurQuery(item.k);
 			},
+			blurInput(){
+				this.$refs.searchBox.blur();
+			}
 		},
 		watch:{
 //			query(newQuery){
