@@ -1,13 +1,14 @@
 <template>
 	<div class="search-input">
 		<i class='icon-search'></i>
-		<input :placeholder="placeholder" v-model.lazy="query"/>
+		<input :placeholder="placeholder" v-model="query" ref='query'/>
 		<i class='icon-dismiss' v-show='query' @click='clear'></i>
 	</div>
 </template>
 
 <script>
 	import {mapMutations} from 'vuex'
+	import {debounce}  from 'common/js/util'
 	export default{
 		data(){
 			return {
@@ -29,14 +30,17 @@
 			},
 			...mapMutations({
 				setQuery: 'SET_QUERY'
-			})
+			}),
+			blur(){
+				this.$refs.query.blur();
+			}
 		},
 		created(){
-			this.$watch('query',(newquery) =>{
+			this.$watch('query',debounce((newquery) =>{
 //				this.$emit('query',newquery);
-				console.log(newquery);
+//				console.log(newquery);
 				this.setQuery(newquery);
-			})
+			},200))
 		}
 	}
 </script>
