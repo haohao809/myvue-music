@@ -1,7 +1,7 @@
 <template>
 	<div class="search-input">
 		<i class='icon-search'></i>
-		<input :placeholder="placeholder" v-model="query"/>
+		<input :placeholder="placeholder" v-model.lazy="query"/>
 		<i class='icon-dismiss' v-show='query' @click='clear'></i>
 	</div>
 </template>

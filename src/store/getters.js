@@ -10,3 +10,4 @@ export const currentSong = (state) => {
 }
 export const disc = state =>state.disc
 export const query = state =>state.query
+export const searchHistory =>state.searchHistory
