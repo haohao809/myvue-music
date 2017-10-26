@@ -1,4 +1,5 @@
 <template>
+	<transition name='confirm-fade'>
 	<div class="confirm-wrapper" ref='confirm'>
 		<div class="shade">
 			<div class="confirm-content">
@@ -17,6 +18,7 @@
 
 		</div>
 	</div>
+	</transition>
 </template>
 
 <script>
@@ -37,6 +39,12 @@
 </script>
 
 <style scoped lang='scss'>
+.confirm-fade-enter-active{
+	animation: confirm-fadein 0.3s;
+	.content{
+		animation: confirm-zoom 0.3s;
+	}
+}
 .confirm-wrapper{
 	display: none;
   .shade{
@@ -83,4 +91,21 @@
 	}
   }
 }	
+  @keyframes confirm-fadein{
+    0%
+     {opacity: 0;} 
+    100%
+     { opacity: 1;}
+}
+@keyframes confirm-zoom{
+	0%{
+		transform: scale(0);
+	}
+	50%{
+		transform: scale(1.1);
+	}
+	100%{
+		transform: scale(1.0);
+	}
+}
 </style>
