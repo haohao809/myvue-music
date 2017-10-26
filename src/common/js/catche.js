@@ -35,3 +35,9 @@ export function deleteSearch(query){
 	storage.set(SEARCH_KEY,searches)
 	return searches
 }
+export function clearSearch(){
+	let searches = storage.get(SEARCH_KEY,[])
+	searches = []
+	storage.set(SEARCH_KEY,[])
+	return searches	
+}
