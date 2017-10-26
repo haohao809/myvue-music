@@ -29,7 +29,7 @@ const mutations = {
 		state.query = query
 	},
 	[types.SET_SEARCH_HISTORY](state,list){
-		state.searchHIstory = list
+		state.searchHistory = list
 	}
 	
 }
