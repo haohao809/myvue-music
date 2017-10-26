@@ -4,7 +4,7 @@
 			<search-box ref='searchBox'></search-box>
 		</div>
 		<div class="shortcut-wrapper">
-			<div class="shortcut" v-show='!query'>
+			<scroll class="shortcut" v-show='!query' :data='shortcut' ref='shortcut'>
 				<div>
 					<div class="hot-key">
 						<h1 class="title">热门搜索</h1>
@@ -24,7 +24,7 @@
 						<search-list @select='addQuery' @delete='deleteSearchItem'></search-list>
 					</div>
 				</div>
-			</div>
+			</scroll>
 		</div>
 		<div class="search-result" v-show='query'>
 			<suggest @listScroll = 'blurInput' @select='saveSearch'></suggest>
@@ -40,12 +40,14 @@
 	import SearchList from 'base/search-list/search-list'
 	import Confirm from 'base/confirm/confirm'
 	import {mapGetters,mapActions} from 'vuex'
+	import Scroll from 'base/scroll/scroll'
 	export default {
 		components:{
 			SearchBox,
 			Suggest,
 			SearchList,
-			Confirm
+			Confirm,
+			Scroll
 		},
 		created(){
 			this._getHotKey();
@@ -57,7 +59,10 @@
 			}
 		},
 		computed:{
-			...mapGetters(['query','searchHistory'])
+			...mapGetters(['query','searchHistory']),
+			shortcut(){
+				this.hotKey.concat(this.searchHistory)
+			}
 		},
 		mounted(){
 			console.log(this.searchHistory);
