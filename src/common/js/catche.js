@@ -16,7 +16,7 @@ function insertArray(arr,val,compare,maxLen){
 		arr.pop()
 	}
 }
-export function saveSearch(querry){
+export function saveSearch(query){
 	let searches = storage.get(SEARCH_KEY,[])
 	insertArray(searches,query, (item) =>{
 		return item === query
