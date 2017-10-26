@@ -28,3 +28,10 @@ export function saveSearch(query){
 export function loadSearch(){
 	return storage.get(SEARCH_KEY,[])
 }
+export function deleteSearch(query){
+	let searches = storage.get(SEARCH_KEY,[])
+	const index = searches.indexOf(query);
+	searches.splice(index,1);
+	storage.set(SEARCH_KEY,searches)
+	return searches
+}

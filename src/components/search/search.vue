@@ -14,6 +14,15 @@
 							</li>
 						</ul>
 					</div>
+					<div class="search-history" v-show='searchHistory.length'>
+						<h1 class='title'>
+							<span class="text">搜索历史</span>
+							<span class="icon">
+								<i class="icon-clear"></i>
+							</span>
+						</h1>
+						<search-list @select='addQuery' @delete='deleteSearchItem'></search-list>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -27,11 +36,13 @@
 	import SearchBox from 'base/search-box/search-box'
 	import {getHotKey} from 'api/search' 
 	import Suggest from 'components/suggest/suggest'
+	import SearchList from 'base/search-list/search-list'
 	import {mapGetters,mapActions} from 'vuex'
 	export default {
 		components:{
 			SearchBox,
-			Suggest
+			Suggest,
+			SearchList
 		},
 		created(){
 			this._getHotKey();
@@ -43,7 +54,10 @@
 			}
 		},
 		computed:{
-			...mapGetters(['query'])
+			...mapGetters(['query','searchHistory'])
+		},
+		mounted(){
+			console.log(this.searchHistory);
 		},
 		methods:{
 			_getHotKey(){
@@ -66,8 +80,13 @@
 				this.saveSearchHistory(this.query)
 			},
 			...mapActions([
-				'saveSearchHistory'
-			])
+				'saveSearchHistory',
+				'deleteSearchHistory',
+			]),
+			deleteSearchItem(item){
+				console.log(item);
+				this.deleteSearchHistory(item);
+			}
 		},
 		watch:{
 //			query(newQuery){
@@ -98,6 +117,22 @@
 				padding: 5px 10px;
 				border-radius: 8px;
 				
+			}
+		}
+		.search-history{
+			margin: 0 20px;
+			position: relative;
+			.title{
+				display: flex;
+				font-size: 14px;
+				
+				.text{
+					flex: 1;	
+					color: rgba(255,255,255,0.5);				
+				}
+				.icon{
+					color: rgba(255,255,255,0.3);
+				}
 			}
 		}
 	}
