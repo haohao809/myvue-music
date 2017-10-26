@@ -9,7 +9,7 @@
 					<div class="hot-key">
 						<h1 class="title">热门搜索</h1>
 						<ul>
-							<li v-for="item in hotKey" class='item' @click="addQuery(item)">
+							<li v-for="item in hotKey" class='item' @click="addQuery(item.k)">
 								<span>{{item.k}}</span>
 							</li>
 						</ul>
@@ -74,7 +74,8 @@
 				})
 			},
 			addQuery(item){
-				this.$refs.searchBox.setCurQuery(item.k);
+				console.log(123);
+				this.$refs.searchBox.setCurQuery(item);
 			},
 			blurInput(){
 				this.$refs.searchBox.blur();
