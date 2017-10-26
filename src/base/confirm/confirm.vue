@@ -41,10 +41,10 @@
 <style scoped lang='scss'>
 .confirm-fade-enter-active{
 	animation: confirm-fadein 0.3s;
-	.content{
+}
+.content{
 		animation: confirm-zoom 0.3s;
 	}
-}
 .confirm-wrapper{
 	display: none;
   .shade{
