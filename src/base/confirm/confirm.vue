@@ -1,15 +1,20 @@
 <template>
 	<div class="confirm-wrapper" ref='confirm'>
-		<div class="content">
-			<p>是否清空所有搜索历史</p>
-		<div class="operate">
-			<div class="confirm" @click='confirm'>
-				确定
+		<div class="shade">
+			<div class="confirm-content">
+				<div class="content">
+					<p>是否清空所有搜索历史</p>
+				<div class="operate">
+					<div class="confirm" @click='confirm'>
+						确定
+					</div>
+					<div class="cancel" @click='cancel'>
+						取消
+					</div>
+				</div>
+				</div>
 			</div>
-			<div class="cancel" @click='cancel'>
-				取消
-			</div>
-		</div>
+
 		</div>
 	</div>
 </template>
@@ -32,13 +37,23 @@
 </script>
 
 <style scoped lang='scss'>
-	.confirm-wrapper{
+.confirm-wrapper{
+	display: none;
+  .shade{
+   	 position: fixed;
+   	 top: 0;
+   	 left: 0;
+   	 right: 0;
+   	 bottom: 0;
+   	 background-color:rgba(0,0,0,0.3);
+   	 z-index: 998;
+   
+	.confirm-content{
 		top: 50%;
 		left: 50%;
 		position: absolute;
 		transform: translate(-50%,-50%);
 		z-index: 999;
-		display: none;
 		.content{
 			background: #333;
 			border-radius: 13px;
@@ -66,4 +81,6 @@
 			}
 		}
 	}
+  }
+}	
 </style>
