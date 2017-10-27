@@ -105,9 +105,14 @@
 			}
 		},
 		watch:{
-//			query(newQuery){
+			query(newQuery){
 //				this.query = newQuery
-//			}
+				if(!newQuery){
+					setTimeout(()=>{
+						this.$refs.shortcut.refresh();
+					},20)
+				}
+			}
 		}
 	}
 </script>
@@ -116,7 +121,14 @@
 	.search-box{
 		margin: 20px;
 	}
+	.shortcut-wrapper{
+		position: fixed;
+		bottom: 0;
+		top:178px;
+		width: 100%;
 	.shortcut {
+		height: 100%;
+		overflow: hidden;
 		.hot-key{
 			margin: 0 20px 20px 20px;
 			.title{
@@ -151,6 +163,7 @@
 				}
 			}
 		}
+	}
 	}
 	.search-result{
 		position: fixed;
