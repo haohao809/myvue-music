@@ -3,7 +3,7 @@
 		<div class="search-box">
 			<search-box ref='searchBox'></search-box>
 		</div>
-		<div class="shortcut-wrapper">
+		<div class="shortcut-wrapper" ref='shortcutWrapper'>
 			<scroll class="shortcut" v-show='!query' :data='shortcut' ref='shortcut'>
 				<div>
 					<div class="hot-key">
@@ -26,8 +26,8 @@
 				</div>
 			</scroll>
 		</div>
-		<div class="search-result" v-show='query'>
-			<suggest @listScroll = 'blurInput' @select='saveSearch'></suggest>
+		<div class="search-result" v-show='query' ref='searchResult'>
+			<suggest @listScroll = 'blurInput' @select='saveSearch' ref="suggest"></suggest>
 		</div>
 		<confirm ref="confirm" @confirm='clearSearchHistoryAll'></confirm>
 	</div>
@@ -41,7 +41,9 @@
 	import Confirm from 'base/confirm/confirm'
 	import {mapGetters,mapActions} from 'vuex'
 	import Scroll from 'base/scroll/scroll'
+	import {playlistMixin} from 'common/js/mixin'
 	export default {
+		mixins: [playlistMixin],
 		components:{
 			SearchBox,
 			Suggest,
@@ -68,6 +70,14 @@
 			console.log(this.searchHistory);
 		},
 		methods:{
+			handlePlaylist(playList){
+				const bottom = playList.length > 0 ? '60px' : ''
+				this.$refs.shortcutWrapper.style.bottom = bottom;
+				this.$refs.shortcut.refresh();
+				this.$refs.searchResult.style.bottom = bottom;
+				this.$refs.suggest.refresh();
+				
+			},
 			_getHotKey(){
 				getHotKey().then((res) =>{
 //					console.log(res.data);
@@ -79,7 +89,6 @@
 				})
 			},
 			addQuery(item){
-				console.log(123);
 				this.$refs.searchBox.setCurQuery(item);
 			},
 			blurInput(){
@@ -107,6 +116,7 @@
 		watch:{
 			query(newQuery){
 //				this.query = newQuery
+//				console.log(newQuery);
 				if(!newQuery){
 					setTimeout(()=>{
 						this.$refs.shortcut.refresh();
