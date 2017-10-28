@@ -98,9 +98,10 @@
 				</progress-circle>
 			</div>
 			<div class="control">
-				<i class="icon-playlist"></i>
+				<i class="icon-playlist" @click.stop='showPlayList'></i>
 			</div>
 		</div>
+		<play-list ref="playlist"></play-list>
 		<audio ref='audio' :src='currentSong.url' @play="ready" @error="error" @timeupdate="timeupdate"
 			@ended="end" @pause="paused"></audio>
 	</div>
@@ -115,6 +116,7 @@
 	import {shuffle} from 'common/js/util'
 	import Lyric from 'lyric-parser'
 	import Scroll from 'base/scroll/scroll'
+	import PlayList from '../playList/playList'
 	export default{
 		data(){
 			return {
@@ -131,7 +133,8 @@
 		components:{
 			ProgressBar,
 			ProgressCircle,
-			Scroll
+			Scroll,
+			PlayList
 		},
 		created() {
 			this.touch = {}
@@ -480,7 +483,10 @@
 			 	this.$refs.middleL.style.opacity = opacity
 			 	this.$refs.middleL.style.transitionDuration = `${time}ms`
 			 	this.touch.initiated = false
-			 }
+			 },
+			 showPlayList(){
+			 	this.$refs.playlist.show();
+			 },
 		}
 	}
 </script>
