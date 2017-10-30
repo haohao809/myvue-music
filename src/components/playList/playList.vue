@@ -1,23 +1,32 @@
 <template>
-	<div class="playlist" v-show='showFlag'>
-		<div class="list-wrapper">	
+	<div class="playlist" v-show='showFlag' @click="close">
+		<div class="list-wrapper" @click.stop>	
 		<div class="list-header">
 			<h1 class="title">
-				<i class="icon"></i>
-				<span></span>
+				<i class="icon" :class='iconMode'></i>
+				<span class="text">{{modeText}}</span>
 				<span><i class="icon-clear"></i></span>
 			</h1>
 		</div>
 		<div class="list-content">
 			<ul>
-				<li v-for='(item,index) in sequenceList'>{{item.name}}</li>
+				<li v-for='(item,index) in sequenceList' class="item">
+					<i class="icon-play"></i>	
+					<span class='text'>{{item.name}}</span>
+					<span class="like">
+						<i class="icon-not-favorite"></i>
+					</span>
+					<span class='delete'>
+						<i class='icon-delete'></i>
+					</span>
+				</li>
 			</ul>
 		</div>
 		<div class="list-operate">
 			
 		</div>
-		<div class="list-close">
-			
+		<div class="list-close" @click="close">
+			<span>关闭</span>
 		</div>
 		</div>
 	</div>
@@ -33,7 +42,13 @@
 			}
 		},
 		computed:{
-			...mapGetters(['sequenceList','mode'])
+			...mapGetters(['sequenceList','mode']),
+			iconMode(){
+				return this.mode===playMode.sequence ? 'icon-sequence' : this.mode===playMode.loop ? 'icon-loop' : 'icon-radom'
+			},
+			modeText(){
+				return this.mode===playMode.sequence ? '顺序播放' : this.mode===playMode.loop ? '单曲循环' : '随机播放'
+			}
 		},
 		mounted(){
 			console.log(this.sequenceList);
@@ -42,6 +57,9 @@
 		methods:{
 			show(){
 				this.showFlag=true;
+			},
+			close(){
+				this.showFlag=false;
 			}
 		},
 	}
@@ -68,5 +86,54 @@
 	.list-header{
 		position: relative;
 		padding: 20px 30px 10px 20px;
+	}
+	.title{
+		display: flex;
+		align-items: center;
+	}
+	.icon{
+		font-size: 30px;
+		margin-right: 10px;
+		color: rgba(255,205,49,0.5);
+	}
+	.text{
+		flex: 1;
+		font-size: 14px;
+		color: rgba(255,255,255,0.5);
+	}
+	.icon-clear{
+		font-size: 14px;
+		color: rgba(255,255,255,0.3);
+	}
+	.item{
+		display: flex;
+		align-items: center;
+		height: 40px;
+		padding: 0 30px 0 20px;
+		overflow: hidden;
+	}
+	.icon-play{
+		width: 20px;
+		font-size: 12px;
+		color: rgba(255,205,49,0.5);
+	}
+	.like{
+		font-size: 12px;
+		margin-right: 15px;
+		color: #FFCD32;
+		position: relative;
+	}
+	.delete{
+		font-size: 12px;
+		color: #FFCD32;
+		position: relative;
+	}
+	.list-close{
+		line-height: 50px;
+		background: #222222;
+		width: 100%;
+		text-align: center;
+		color: rgba(255,255,255,0.5);
+		font-size: 16px;
 	}
 </style>
