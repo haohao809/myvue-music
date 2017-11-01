@@ -52,7 +52,6 @@ export const insertSong = function({commit,state},song){
 		squenceList.splice(fsIndex,1)
 	}
 	sequenceList.splice(currentSindex,0,song)
-	
 	commit(types.SET_PLAYLIST,playList)
 	commit(types.SET_SEQUENCE_LIST, sequenceList)
 	commit(types.SET_CURRENT_INDEX, currentIndex)

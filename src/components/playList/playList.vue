@@ -8,7 +8,7 @@
 				<span><i class="icon-clear"></i></span>
 			</h1>
 		</div>
-		<div class="list-content">
+		<scroll class="list-content" :data='sequenceList' ref='listContent' >
 			<ul>
 				<li v-for='(item,index) in sequenceList' class="item">
 					<i class="icon-play"></i>	
@@ -21,7 +21,7 @@
 					</span>
 				</li>
 			</ul>
-		</div>
+		</scroll>
 		<div class="list-operate">
 			
 		</div>
@@ -35,11 +35,15 @@
 <script>
 	import {mapGetters} from 'vuex'
 	import {playMode} from 'common/js/config'
+	import Scroll from 'base/scroll/scroll'
 	export default{
 		data(){
 			return {
 				showFlag : false,
 			}
+		},
+		components:{
+			Scroll
 		},
 		computed:{
 			...mapGetters(['sequenceList','mode']),
@@ -50,6 +54,11 @@
 				return this.mode===playMode.sequence ? '顺序播放' : this.mode===playMode.loop ? '单曲循环' : '随机播放'
 			}
 		},
+		watch:{
+			sequenceList(val){
+				console.log(val);
+			}
+		},
 		mounted(){
 			console.log(this.sequenceList);
 			console.log(this.mode)
@@ -57,6 +66,10 @@
 		methods:{
 			show(){
 				this.showFlag=true;
+				setTimeout(() => {
+		          this.$refs.listContent.refresh()
+//		          this.scrollToCurrent(this.currentSong)
+		        }, 20)
 			},
 			close(){
 				this.showFlag=false;
@@ -86,6 +99,10 @@
 	.list-header{
 		position: relative;
 		padding: 20px 30px 10px 20px;
+	}
+	.list-content{
+		max-height:240px;
+		overflow: hidden;
 	}
 	.title{
 		display: flex;
