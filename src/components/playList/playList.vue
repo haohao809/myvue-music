@@ -11,7 +11,7 @@
 		<scroll class="list-content" :data='sequenceList' ref='listContent' >
 			<ul>
 				<li v-for='(item,index) in sequenceList' class="item" @click='selectItem(item,index)'>
-					<i class="icon-play"></i>	
+					<i class="current" :class="getCurrentIcon(item)"></i>	
 					<span class='text'>{{item.name}}</span>
 					<span class="like">
 						<i class="icon-not-favorite"></i>
@@ -50,7 +50,7 @@
 			Confirm
 		},
 		computed:{
-			...mapGetters(['sequenceList','mode']),
+			...mapGetters(['sequenceList','mode','currentSong']),
 			iconMode(){
 				return this.mode===playMode.sequence ? 'icon-sequence' : this.mode===playMode.loop ? 'icon-loop' : 'icon-radom'
 			},
@@ -94,6 +94,10 @@
 			confirmClear(){
 				this.deleteSongList()
 			},
+			getCurrentIcon(item){
+				if(this.currentSong.id===item.id)
+				return 'icon-play'
+			}
 			
 		},
 	}
@@ -173,5 +177,8 @@
 		text-align: center;
 		color: rgba(255,255,255,0.5);
 		font-size: 16px;
+	}
+	.current{
+		width: 20px;
 	}
 </style>
