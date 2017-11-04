@@ -60,6 +60,27 @@ export const insertSong = function({commit,state},song){
 	
 	
 }
+//删除歌曲
+export const deleteSong =function({commit,state},song){
+	let playList = state.playList.slice()
+	let sequenceList = state.sequenceList.slice()
+	let currentIndex = state.currentIndex
+	let pIndex = findIndex(playList, song)
+	playList.splice(pIndex,1)
+	let sIndex = findIndex(playList, song)
+	sequenceList.splice(sIndex,1)
+  	if (currentIndex > pIndex || currentIndex === playList.length) {
+    	currentIndex--
+  	}	
+  	commit(types.SET_PLAYLIST, playList)
+  	commit(types.SET_SEQUENCE_LIST, sequenceList)
+  	commit(types.SET_CURRENT_INDEX, currentIndex)
+  	 if (!playList.length) {
+   		 commit(types.SET_PLAYING_STATE, false)
+	  } else {
+	    commit(types.SET_PLAYING_STATE, true)
+	  }
+}
 export const saveSearchHistory = function({commit},query) {
 	commit(types.SET_SEARCH_HISTORY,saveSearch(query))
 }

@@ -10,13 +10,13 @@
 		</div>
 		<scroll class="list-content" :data='sequenceList' ref='listContent' >
 			<ul>
-				<li v-for='(item,index) in sequenceList' class="item">
+				<li v-for='(item,index) in sequenceList' class="item" @click='selectItem(item,index)'>
 					<i class="icon-play"></i>	
 					<span class='text'>{{item.name}}</span>
 					<span class="like">
 						<i class="icon-not-favorite"></i>
 					</span>
-					<span class='delete'>
+					<span class='delete' @click="deleteOne(item)">
 						<i class='icon-delete'></i>
 					</span>
 				</li>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-	import {mapGetters} from 'vuex'
+	import {mapGetters,mapActions} from 'vuex'
 	import {playMode} from 'common/js/config'
 	import Scroll from 'base/scroll/scroll'
 	export default{
@@ -73,7 +73,16 @@
 			},
 			close(){
 				this.showFlag=false;
-			}
+			},
+			selectItem(item,index){
+				
+			},
+			deleteOne(item){
+				this.deleteSong(item);
+			},
+			...mapActions([
+				'deleteSong'	
+			])
 		},
 	}
 
