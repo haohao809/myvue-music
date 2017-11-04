@@ -23,7 +23,10 @@
 			</ul>
 		</scroll>
 		<div class="list-operate">
-			
+			<div class="add-song">
+				<i class="icon-add"></i>
+				<span class="text-add">添加歌曲到队列列表</span>
+			</div>
 		</div>
 		<div class="list-close" @click="close">
 			<span>关闭</span>
@@ -180,5 +183,18 @@
 	}
 	.current{
 		width: 20px;
+	}
+	.list-operate{
+		width: 180px;
+		margin: 20px auto 30px auto;
+	}
+	.add-song{
+		text-align: center;
+		border: 1px solid ;
+		border-radius: 100px;
+		padding: 8px 6px;
+		border-color: rgba(255,255,255,0.5);
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
 	}
 </style>
