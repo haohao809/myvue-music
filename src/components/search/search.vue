@@ -29,7 +29,7 @@
 		<div class="search-result" v-show='query' ref='searchResult'>
 			<suggest @listScroll = 'blurInput' @select='saveSearch' ref="suggest"></suggest>
 		</div>
-		<confirm ref="confirm" @confirm='clearSearchHistoryAll'></confirm>
+		<confirm ref="confirm" @confirm='clearSearchHistoryAll' tips='是否清空所有搜索历史'></confirm>
 	</div>
 </template>
 

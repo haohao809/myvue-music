@@ -4,7 +4,7 @@
 		<div class="shade">
 			<div class="confirm-content">
 				<div class="content">
-					<p>是否清空所有搜索历史</p>
+					<p>{{tips}}</p>
 				<div class="operate">
 					<div class="confirm" @click='confirm'>
 						确定
@@ -23,6 +23,12 @@
 
 <script>
 	export default {
+		props:{
+			tips : {
+				type: String,
+				default: ''
+			}
+		},
 		methods:{
 			confirm(){
 				this.$emit('confirm');

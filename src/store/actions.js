@@ -81,6 +81,13 @@ export const deleteSong =function({commit,state},song){
 	    commit(types.SET_PLAYING_STATE, true)
 	  }
 }
+//删除全部歌曲
+export const deleteSongList =function ({commit}){
+	commit(types.SET_CURRENT_INDEX,-1)
+	commit(types.SET_PLAYLIST, [])
+  	commit(types.SET_SEQUENCE_LIST, [])
+  	commit(types.SET_PLAYING_STATE, false)  	
+}
 export const saveSearchHistory = function({commit},query) {
 	commit(types.SET_SEARCH_HISTORY,saveSearch(query))
 }
