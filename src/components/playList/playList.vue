@@ -9,8 +9,8 @@
 			</h1>
 		</div>
 		<scroll class="list-content" :data='sequenceList' ref='listContent' >
-			<ul>
-				<li v-for='(item,index) in sequenceList' class="item" @click='selectItem(item,index)'>
+			<transition-group tag='ul' name="list" ref='list'>
+				<li :key='item.id' v-for='(item,index) in sequenceList' class="item" @click='selectItem(item,index)'>
 					<i class="current" :class="getCurrentIcon(item)"></i>	
 					<span class='text'>{{item.name}}</span>
 					<span class="like">
@@ -20,7 +20,7 @@
 						<i class='icon-delete'></i>
 					</span>
 				</li>
-			</ul>
+			</transition-group>
 		</scroll>
 		<div class="list-operate">
 			<div class="add-song">
@@ -75,7 +75,7 @@
 				this.showFlag=true;
 				setTimeout(() => {
 		          this.$refs.listContent.refresh()
-//		          this.scrollToCurrent(this.currentSong)
+		          this.scrollToCurrent(this.currentSong)
 		        }, 20)
 			},
 			close(){
@@ -100,6 +100,12 @@
 			getCurrentIcon(item){
 				if(this.currentSong.id===item.id)
 				return 'icon-play'
+			},
+			scrollToCurrent(current){
+				const index = this.sequenceList.findIndex((song) =>{
+					return current.id === song.id
+				})
+				this.$refs.listContent.scrollToElement(this.$refs.list.$el.children[index],300)
 			}
 			
 		},
@@ -196,5 +202,11 @@
 		border-color: rgba(255,255,255,0.5);
 		color: rgba(255,255,255,0.5);
 		font-size: 10px;
+	}
+	.list-enter-active, .list-leave-active{
+		transition: all 0.1s
+	}
+	.list-enter,.list-leave-to{
+		height:0
 	}
 </style>
