@@ -2,7 +2,7 @@
 	<div class="playlist" v-show='showFlag' @click="close">
 		<div class="list-wrapper" @click.stop>	
 		<div class="list-header">
-			<h1 class="title">
+			<h1 class="title" @click='changeMode'>
 				<i class="icon" :class='iconMode'></i>
 				<span class="text">{{modeText}}</span>
 				<span @click='showConfirm'><i class="icon-clear"></i></span>
@@ -37,10 +37,11 @@
 </template>
 
 <script>
-	import {mapGetters,mapActions} from 'vuex'
+	import {mapGetters,mapActions,mapMutations} from 'vuex'
 	import {playMode} from 'common/js/config'
 	import Scroll from 'base/scroll/scroll'
 	import Confirm from 'base/confirm/confirm'
+	import {shuffle} from 'common/js/util'
 	export default{
 		data(){
 			return {
@@ -55,7 +56,7 @@
 		computed:{
 			...mapGetters(['sequenceList','mode','currentSong']),
 			iconMode(){
-				return this.mode===playMode.sequence ? 'icon-sequence' : this.mode===playMode.loop ? 'icon-loop' : 'icon-radom'
+				return this.mode===playMode.sequence ? 'icon-sequence' : this.mode===playMode.loop ? 'icon-loop' : 'icon-random'
 			},
 			modeText(){
 				return this.mode===playMode.sequence ? '顺序播放' : this.mode===playMode.loop ? '单曲循环' : '随机播放'
@@ -106,8 +107,33 @@
 					return current.id === song.id
 				})
 				this.$refs.listContent.scrollToElement(this.$refs.list.$el.children[index],300)
-			}
-			
+			},
+			changeMode(){
+//				console.log(this.mode);
+				const mode = (this.mode+1)%3;
+//				console.log(mode);
+				this.setPalyMode(mode);
+				let list = null;
+				if(mode === playMode.random){
+					list = shuffle(this.sequenceList);
+				}else{
+					list = this.sequenceList;
+				}
+				this.resetCurrentIndex(list);
+				this.setPlayList(list);
+//				console.log(list);
+			},
+			resetCurrentIndex(list) {
+				let index = list.findIndex((item)=>{
+					return item.id === this.currentSong.id;
+				})
+//				console.log(index);
+				this.setCurrentIndex(index);
+			},
+			...mapMutations({
+				setPalyMode: 'SET_PLAY_MODE',
+				setPlayList: 'SET_PLAYLIST'
+			})
 		},
 	}
 

@@ -1,6 +1,6 @@
 <template>
 	<transition name='confirm-fade'>
-	<div class="confirm-wrapper" ref='confirm'>
+	<div class="confirm-wrapper" ref='confirm' @click.stop>
 		<div class="shade">
 			<div class="confirm-content">
 				<div class="content">
