@@ -7,10 +7,10 @@
 			</div>
 		</div>
 		<div class="search-box">
-			
+			<search-box></search-box>
 		</div>
 		<div class="short-cut">
-			
+			<switches></switches>
 		</div>
 		<div class="search-result">
 			
@@ -19,11 +19,17 @@
 </template>
 
 <script>
+	import SearchBox from 'base/search-box/search-box'
+	import Switches from 'base/switches/switches'
 	export default{
 		data(){
 			return{
 				showFlag:false,
 			}
+		},
+		components:{
+			SearchBox,
+			Switches
 		},
 		methods:{
 			show(){
@@ -67,5 +73,8 @@
 		padding: 12px;
 		color: #ffcd32;
 		display: block;
+	}
+	.search-box{
+		margin: 20px;
 	}
 </style>
