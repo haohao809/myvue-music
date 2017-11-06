@@ -23,7 +23,7 @@
 			</transition-group>
 		</scroll>
 		<div class="list-operate">
-			<div class="add-song">
+			<div class="add-song" @click="addSong">
 				<i class="icon-add"></i>
 				<span class="text-add">添加歌曲到队列列表</span>
 			</div>
@@ -33,6 +33,7 @@
 		</div>
 		</div>
 		<confirm ref='confirm' :tips='tips' @confirm="confirmClear"></confirm>
+		<add-song ref="addSong"></add-song>
 	</div>
 </template>
 
@@ -41,6 +42,7 @@
 	import {playMode} from 'common/js/config'
 	import Scroll from 'base/scroll/scroll'
 	import Confirm from 'base/confirm/confirm'
+	import AddSong from 'components/add-song/add-song'
 	import {shuffle} from 'common/js/util'
 	export default{
 		data(){
@@ -51,7 +53,8 @@
 		},
 		components:{
 			Scroll,
-			Confirm
+			Confirm,
+			AddSong
 		},
 		computed:{
 			...mapGetters(['sequenceList','mode','currentSong']),
@@ -133,7 +136,10 @@
 			...mapMutations({
 				setPalyMode: 'SET_PLAY_MODE',
 				setPlayList: 'SET_PLAYLIST'
-			})
+			}),
+			addSong(){
+				this.$refs.addSong.show();
+			}
 		},
 	}
 
