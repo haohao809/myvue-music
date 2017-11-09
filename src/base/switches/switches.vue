@@ -17,6 +17,7 @@
 		methods:{
 			selectItem(index){
 				this.currentIndex = index;
+				this.$emit('switch', index)
 			}
 		}
 

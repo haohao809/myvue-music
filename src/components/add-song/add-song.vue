@@ -10,7 +10,12 @@
 			<search-box></search-box>
 		</div>
 		<div class="short-cut">
-			<switches></switches>
+			<switches @switch="switchItem"></switches>
+			<div class="list-wraper">
+				<div class="song-list" v-if="currentIndex===0">
+					
+				</div>
+			</div>
 		</div>
 		<div class="search-result">
 			
@@ -25,6 +30,7 @@
 		data(){
 			return{
 				showFlag:false,
+				currentIndex: 0,
 			}
 		},
 		components:{
@@ -40,6 +46,9 @@
 			},
 			close(){
 				this.hide();
+			},
+			switchItem(index){
+				this.currentIndex = index
 			}
 		}
 	}
