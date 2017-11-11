@@ -12,13 +12,15 @@
 		<div class="short-cut">
 			<switches @switch="switchItem"></switches>
 			<div class="list-wraper">
-				<div class="song-list" v-if="currentIndex===0" :data="playHistory">
-					<song-list :songs="playHistory"></song-list>
-				</div>
+				<scroll class="song-list" v-if="currentIndex===0" :data="playHistory">
+					<div class="list-inner">
+					<song-list :songs="playHistory"></song-list>						
+					</div>
+				</scroll>
 			</div>
 		</div>
 		<div class="search-result">
-			<suggest ></suggest>
+			<!--<suggest ></suggest>-->
 		</div>
 	</div>
 </template>
@@ -27,6 +29,7 @@
 	import SearchBox from 'base/search-box/search-box'
 	import Switches from 'base/switches/switches'
 	import SongList from 'base/song-list/song-list'
+	import Scroll from 'base/scroll/scroll'
 	import Suggest from 'components/suggest/suggest'
 	import {mapGetters} from 'vuex'
 	export default{
@@ -40,7 +43,8 @@
 			SearchBox,
 			Switches,
 			SongList,
-			Suggest
+			Suggest,
+			Scroll
 		},
 		computed:{
 			...mapGetters(
@@ -95,5 +99,18 @@
 	}
 	.search-box{
 		margin: 20px;
+	}
+	.list-inner{
+		padding: 20px 30px;
+	}
+	.list-wraper{
+		position: absolute;
+		top:165px;
+		bottom: 0;
+		width:100%
+	}
+	.song-list{
+		height: 100%;
+		overflow: hidden;
 	}
 </style>
