@@ -1,7 +1,7 @@
 <template>
 	<div class="search">
 		<div class="search-box">
-			<search-box ref='searchBox'></search-box>
+			<search-box ref='searchBox' @query="onQueryChange"></search-box>
 		</div>
 		<div class="shortcut-wrapper" ref='shortcutWrapper'>
 			<scroll class="shortcut" v-show='!query' :data='shortcut' ref='shortcut'>
@@ -41,9 +41,9 @@
 	import Confirm from 'base/confirm/confirm'
 	import {mapGetters,mapActions} from 'vuex'
 	import Scroll from 'base/scroll/scroll'
-	import {playlistMixin} from 'common/js/mixin'
+	import {playlistMixin,searchMixin} from 'common/js/mixin'
 	export default {
-		mixins: [playlistMixin],
+		mixins: [playlistMixin,searchMixin],
 		components:{
 			SearchBox,
 			Suggest,
@@ -61,7 +61,6 @@
 			}
 		},
 		computed:{
-			...mapGetters(['query','searchHistory']),
 			shortcut(){
 				this.hotKey.concat(this.searchHistory)
 			}
@@ -88,18 +87,7 @@
 					console.log(error);
 				})
 			},
-			addQuery(item){
-				this.$refs.searchBox.setCurQuery(item);
-			},
-			blurInput(){
-				this.$refs.searchBox.blur();
-			},
-			saveSearch(){
-				this.saveSearchHistory(this.query)
-			},
 			...mapActions([
-				'saveSearchHistory',
-				'deleteSearchHistory',
 				'clearSearchHistory'
 			]),
 			deleteSearchItem(item){
@@ -117,6 +105,7 @@
 			query(newQuery){
 //				this.query = newQuery
 //				console.log(newQuery);
+				console.log("123")
 				if(!newQuery){
 					setTimeout(()=>{
 						this.$refs.shortcut.refresh();

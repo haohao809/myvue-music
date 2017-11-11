@@ -14,7 +14,12 @@
 			<div class="list-wraper">
 				<scroll class="song-list" v-if="currentIndex===0" :data="playHistory">
 					<div class="list-inner">
-					<song-list :songs="playHistory"></song-list>						
+					<song-list :songs="playHistory" @select="selectSong"></song-list>						
+					</div>
+				</scroll >
+				<scroll class="song-list" v-if="currentIndex===1" :data="searchHistory">
+					<div class="list-inner">
+					<search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
 					</div>
 				</scroll>
 			</div>
@@ -29,10 +34,14 @@
 	import SearchBox from 'base/search-box/search-box'
 	import Switches from 'base/switches/switches'
 	import SongList from 'base/song-list/song-list'
+	import SearchList from 'base/search-list/search-list'
 	import Scroll from 'base/scroll/scroll'
 	import Suggest from 'components/suggest/suggest'
-	import {mapGetters} from 'vuex'
+	import {mapGetters,mapActions} from 'vuex'
+	import Song from 'common/js/song'
+	import {searchMixin} from 'common/js/mixin'
 	export default{
+		mixins: [searchMixin],
 		data(){
 			return{
 				showFlag:false,
@@ -44,7 +53,8 @@
 			Switches,
 			SongList,
 			Suggest,
-			Scroll
+			Scroll,
+			SearchList
 		},
 		computed:{
 			...mapGetters(
@@ -63,7 +73,17 @@
 			},
 			switchItem(index){
 				this.currentIndex = index
-			}
+			},
+			selectSong(song,index){
+				console.log(song)
+				console.log(new Song(song))
+				if(index!=0){
+					this.insertSong(new Song(song));
+				}
+			},
+			...mapActions(
+				['insertSong']				
+			)
 		}
 	}
 </script>

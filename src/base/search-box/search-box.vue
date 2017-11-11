@@ -37,8 +37,7 @@
 		},
 		created(){
 			this.$watch('query',debounce((newquery) =>{
-//				this.$emit('query',newquery);
-//				console.log(newquery);
+				this.$emit('query',newquery);
 				this.setQuery(newquery);
 			},200))
 		}
