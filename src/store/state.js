@@ -10,6 +10,7 @@ const state = {
 	currentIndex: -1,
 	disc: {},
 	query: '',
-	searchHistory: loadSearch()
+	searchHistory: loadSearch(),
+	playHistory:[]
 }
 export default state
