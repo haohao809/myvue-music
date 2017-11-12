@@ -23,7 +23,7 @@
 			</transition-group>
 		</scroll>
 		<div class="list-operate">
-			<div class="add-song" @click="addSong">
+			<div class="add-song" @click.stop="addSong">
 				<i class="icon-add"></i>
 				<span class="text-add">添加歌曲到队列列表</span>
 			</div>

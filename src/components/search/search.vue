@@ -1,7 +1,7 @@
 <template>
 	<div class="search">
 		<div class="search-box">
-			<search-box ref='searchBox' @query="onQueryChange"></search-box>
+			<search-box ref="searchBox" @query="onQueryChange"></search-box>
 		</div>
 		<div class="shortcut-wrapper" ref='shortcutWrapper'>
 			<scroll class="shortcut" v-show='!query' :data='shortcut' ref='shortcut'>
@@ -105,7 +105,6 @@
 			query(newQuery){
 //				this.query = newQuery
 //				console.log(newQuery);
-				console.log("123")
 				if(!newQuery){
 					setTimeout(()=>{
 						this.$refs.shortcut.refresh();

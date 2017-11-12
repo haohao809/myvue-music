@@ -1,7 +1,7 @@
 <template>
 	<div class="search-list">
 		<ul>
-			<li v-for='item in searchHistory' class='search-item' @click="select(item)">
+			<li v-for='item in searchHistory' class='search-item' @click.stop="select(item)">
 			 <span class='text'>{{item}}</span>
 			 <span class="icon" @click.stop='deleteOne(item)'>
 			 	<i class="icon-delete"></i>

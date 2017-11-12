@@ -26,6 +26,7 @@
 				this.query = '';
 			},
 			setCurQuery(query){
+				console.log("123456");
 				this.query = query;
 			},
 			...mapMutations({

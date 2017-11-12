@@ -7,9 +7,9 @@
 			</div>
 		</div>
 		<div class="search-box">
-			<search-box></search-box>
+			<search-box ref="searchBox" @query="onQueryChange"></search-box>
 		</div>
-		<div class="short-cut">
+		<div class="short-cut" v-show="!query">
 			<switches @switch="switchItem"></switches>
 			<div class="list-wraper">
 				<scroll class="song-list" v-if="currentIndex===0" :data="playHistory">
@@ -24,8 +24,8 @@
 				</scroll>
 			</div>
 		</div>
-		<div class="search-result">
-			<!--<suggest ></suggest>-->
+		<div class="search-result" v-show="query">
+			<suggest :query="query"></suggest>
 		</div>
 	</div>
 </template>
@@ -84,6 +84,11 @@
 			...mapActions(
 				['insertSong']				
 			)
+		},
+		watch: {
+			query(newVal){
+				console.log(newVal);
+			}
 		}
 	}
 </script>
