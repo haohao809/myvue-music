@@ -1,4 +1,5 @@
 <template>
+	<transition name="slide">
 	<div class="add-song-wrapper" v-show="showFlag" @click.stop>
 		<div class="header">
 			<h1 class="title">添加歌曲到列表</h1>
@@ -12,12 +13,12 @@
 		<div class="short-cut" v-show="!query">
 			<switches @switch="switchItem"></switches>
 			<div class="list-wraper">
-				<scroll class="song-list" v-if="currentIndex===0" :data="playHistory">
+				<scroll class="song-list" v-if="currentIndex===0" :data="playHistory" ref="songList">
 					<div class="list-inner">
 					<song-list :songs="playHistory" @select="selectSong"></song-list>						
 					</div>
 				</scroll >
-				<scroll class="song-list" v-if="currentIndex===1" :data="searchHistory">
+				<scroll class="song-list" v-if="currentIndex===1" :data="searchHistory" ref="searchList">
 					<div class="list-inner">
 					<search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
 					</div>
@@ -28,6 +29,7 @@
 			<suggest :query="query"></suggest>
 		</div>
 	</div>
+	</transition>
 </template>
 
 <script>
@@ -64,6 +66,12 @@
 		methods:{
 			show(){
 				this.showFlag=true;
+				if(this.currentIndex===0){
+					this.$refs.songList.refresh();
+				}else{
+					this.$refs.searchList.refresh();
+				}
+				
 			},
 			hide(){
 				this.showFlag=false;
@@ -94,6 +102,12 @@
 </script>
 
 <style scoped>
+	.slide-enter-active, .slide-leave-active{
+		transition: all 0.3s;
+	}
+	.slide-enter,.slide-leave-to{
+		transform: translateX(100%);
+	}
 	.add-song-wrapper{
 		position: fixed;
 		top: 0;
