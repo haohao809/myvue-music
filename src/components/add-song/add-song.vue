@@ -1,5 +1,5 @@
 <template>
-	<div class="add-song-wrapper" v-show="showFlag">
+	<div class="add-song-wrapper" v-show="showFlag" @click.stop>
 		<div class="header">
 			<h1 class="title">添加歌曲到列表</h1>
 			<div class="close" @click="close">
