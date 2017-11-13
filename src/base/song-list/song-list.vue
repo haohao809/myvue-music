@@ -34,7 +34,7 @@
 				return `${song.singer}·${song.album}`
 			},
 			selectItem(item,index){
-				this.$emit('select', item,index);
+				this.$emit('select', item, index);
 			},
 			getRankCls(index){
 				if(index<=2){

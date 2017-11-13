@@ -26,8 +26,14 @@
 			</div>
 		</div>
 		<div class="search-result" v-show="query">
-			<suggest :query="query"></suggest>
+			<suggest :query="query" @select="selectSuggest"></suggest>
 		</div>
+		<top-tip ref="topTip">
+			<div class="top-title">
+				<i class=icon-ok></i>
+				<span class="text">1首歌已经添加到播放列表里</span>
+			</div>
+		</top-tip>
 	</div>
 	</transition>
 </template>
@@ -39,6 +45,7 @@
 	import SearchList from 'base/search-list/search-list'
 	import Scroll from 'base/scroll/scroll'
 	import Suggest from 'components/suggest/suggest'
+	import TopTip from 'base/top-tip/top-tip'
 	import {mapGetters,mapActions} from 'vuex'
 	import Song from 'common/js/song'
 	import {searchMixin} from 'common/js/mixin'
@@ -56,7 +63,8 @@
 			SongList,
 			Suggest,
 			Scroll,
-			SearchList
+			SearchList,
+			TopTip
 		},
 		computed:{
 			...mapGetters(
@@ -87,7 +95,13 @@
 				console.log(new Song(song))
 				if(index!=0){
 					this.insertSong(new Song(song));
+					this.$refs.topTip.show()
 				}
+				
+			},
+			selectSuggest(){
+				this.$refs.topTip.show()
+				this.saveSearch()
 			},
 			...mapActions(
 				['insertSong']				
@@ -151,5 +165,18 @@
 	.song-list{
 		height: 100%;
 		overflow: hidden;
+	}
+	.top-title{
+		text-align: center;
+		padding: 18px 0;
+	}
+	.top-title .icon-ok{
+		font-size: 14px;
+		color: #ffcd32;
+		margin-right: 4px;
+	}
+	.top-title .text{
+		font-size: 14px;
+		color: #fff;
 	}
 </style>

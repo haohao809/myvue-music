@@ -49,7 +49,7 @@ export const insertSong = function({commit,state},song){
 	let currentSindex = findIndex(sequenceList, currentSong) + 1
 	let fsIndex = findIndex(sequenceList,song)
 	if(fsIndex > -1){
-		squenceList.splice(fsIndex,1)
+		sequenceList.splice(fsIndex,1)
 	}
 	sequenceList.splice(currentSindex,0,song)
 	commit(types.SET_PLAYLIST,playList)
