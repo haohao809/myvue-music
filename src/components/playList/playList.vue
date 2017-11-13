@@ -8,7 +8,7 @@
 				<span @click='showConfirm'><i class="icon-clear"></i></span>
 			</h1>
 		</div>
-		<scroll class="list-content" :data='sequenceList' ref='listContent' >
+		<scroll class="list-content" :data='sequenceList' ref='listContent' :refreshDelay='refreshDelay'>
 			<transition-group tag='ul' name="list" ref='list'>
 				<li :key='item.id' v-for='(item,index) in sequenceList' class="item" @click='selectItem(item,index)'>
 					<i class="current" :class="getCurrentIcon(item)"></i>	
@@ -48,7 +48,8 @@
 		data(){
 			return {
 				showFlag : false,
-				tips: '是否清空播放列表'
+				tips: '是否清空播放列表',
+				refreshDelay: 100
 			}
 		},
 		components:{
