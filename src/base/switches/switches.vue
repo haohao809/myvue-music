@@ -2,21 +2,29 @@
 	<ul class="switches">
 		<li v-for="(item,index) in switches" class="item" 
 		:class="{'active':currentIndex===index}" @click.stop="selectItem(index)">
-		<span>{{item}}</span></li>
+		<span>{{item.name}}</span></li>
 	</ul>
 </template>
 
 <script>
 	export default{
+		props:{
+			switches:{
+				type: Array,
+				default: []
+			},
+			currentIndex:{
+				type: Number,
+				default:0
+			}
+		},
 		data(){
 			return{
-				switches:['最近播放','搜索历史'],
-				currentIndex:0
+
 			}
 		},
 		methods:{
 			selectItem(index){
-				this.currentIndex = index;
 				this.$emit('switch', index)
 			}
 		}
@@ -41,5 +49,6 @@
 	}
 	.active{
 		color: #FFF;
+		background: #333;
 	}
 </style>

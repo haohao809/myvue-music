@@ -11,7 +11,7 @@
 			<search-box ref="searchBox" @query="onQueryChange"></search-box>
 		</div>
 		<div class="short-cut" v-show="!query">
-			<switches @switch="switchItem"></switches>
+			<switches @switch="switchItem" :switches="switches" :currentIndex="currentIndex"></switches>
 			<div class="list-wraper">
 				<scroll class="song-list" v-if="currentIndex===0" :data="playHistory" ref="songList">
 					<div class="list-inner">
@@ -55,6 +55,14 @@
 			return{
 				showFlag:false,
 				currentIndex: 0,
+		        switches: [
+		          {
+		            name: '最近播放'
+		          },
+		          {
+		            name: '搜索历史'
+		          }
+		        ]
 			}
 		},
 		components:{
