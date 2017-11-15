@@ -5,11 +5,23 @@
 				<i class="icon-back"></i>
 			</div>
 			<div class="switches-wraper" @click="random">
-				<switches :switches="switches" :currentIndex="currentIndex"></switches>
+				<switches :switches="switches" :currentIndex="currentIndex" @switch="switchItem"></switches>
 			</div>
-			<div class="play-btn">
+			<div class="play-btn" @click="random">
 				<i class="icon-play"></i>
 				<span class="text">随机播放全部</span>
+			</div>
+			<div class="list-wrapper">
+				<scroll :data='favoriteList' v-if="currentIndex===0">
+					<div class="line-list">
+						<song-list :songs='favoriteList' @select="selectSong"></song-list>
+					</div>
+				</scroll>
+				<scroll :data='playHistory' v-if="currentIndex===1">
+					<div class="line-list">
+						<song-list :songs='playHistory' @select="selectSong"></song-list>
+					</div>
+				</scroll>
 			</div>
 		</div>
 	</transition>
@@ -17,6 +29,10 @@
 
 <script>
 	import Switches from 'base/switches/switches'
+	import Scroll from 'base/scroll/scroll'
+	import SongList from 'base/song-list/song-list'
+	import {mapGetters,mapActions} from 'vuex'
+	import Song from 'common/js/song'
 	export default{
 		data() {
 			return {
@@ -32,15 +48,38 @@
 			}
 		},
 		components:{
-			Switches
+			Switches,
+			Scroll,
+			SongList
+		},
+		computed:{
+			...mapGetters(['favoriteList','playHistory'])
 		},
 		methods:{
 			back(){
 				this.$router.back();
 			},
 			random(){
-				
-			}
+				let list = this.currentIndex === 0 ? this.favoriteList : this.playHistory
+		        if (list.length === 0) {
+		          return
+		        }
+		        list = list.map((song) => {
+		          return new Song(song)
+		        })
+		        this.randomPlay({
+		          list
+		        })
+			},
+			switchItem(index){
+				this.currentIndex = index;
+			},
+			selectSong(item){
+				this.insertSong(new Song(item))
+			},
+			...mapActions(
+				['insertSong','randomPlay']
+			)
 		}
 	}
 </script>
@@ -87,6 +126,15 @@
 			.text{
 				font-size: 12px;
 				vertical-align: middle;
+			}
+		}
+		.list-wrapper{
+			position: absolute;
+			top: 110px;
+			bottom: 0;
+			width: 100%;
+			.line-list{
+				padding: 20px 30px;
 			}
 		}
 	}
