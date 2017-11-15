@@ -13,8 +13,8 @@
 				<li :key='item.id' v-for='(item,index) in sequenceList' class="item" @click='selectItem(item,index)'>
 					<i class="current" :class="getCurrentIcon(item)"></i>	
 					<span class='text'>{{item.name}}</span>
-					<span class="like">
-						<i class="icon" @click="toggleFavorite(currentSong)" :class="getFavoriteIcon(currentSong)"></i>
+					<span class="like" @click.stop="toggleFavorite(item)">
+						<i class="icon":class="getFavoriteIcon(item)"></i>
 					</span>
 					<span class='delete' @click="deleteOne(item)">
 						<i class='icon-delete'></i>
@@ -46,7 +46,7 @@
 	import {shuffle} from 'common/js/util'
 	import {playerMixin} from 'common/js/mixin'
 	export default{
-		mixnis:[playerMixin],
+		mixins:[playerMixin],
 		data(){
 			return {
 				showFlag : false,
@@ -178,7 +178,6 @@
 		align-items: center;
 	}
 	.icon{
-		font-size: 30px;
 		margin-right: 10px;
 		color: rgba(255,205,49,0.5);
 	}
