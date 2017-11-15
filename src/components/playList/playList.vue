@@ -14,7 +14,7 @@
 					<i class="current" :class="getCurrentIcon(item)"></i>	
 					<span class='text'>{{item.name}}</span>
 					<span class="like">
-						<i class="icon-not-favorite"></i>
+						<i class="icon" @click="toggleFavorite(currentSong)" :class="getFavoriteIcon(currentSong)"></i>
 					</span>
 					<span class='delete' @click="deleteOne(item)">
 						<i class='icon-delete'></i>
@@ -44,7 +44,9 @@
 	import Confirm from 'base/confirm/confirm'
 	import AddSong from 'components/add-song/add-song'
 	import {shuffle} from 'common/js/util'
+	import {playerMixin} from 'common/js/mixin'
 	export default{
+		mixnis:[playerMixin],
 		data(){
 			return {
 				showFlag : false,
@@ -188,6 +190,9 @@
 	.icon-clear{
 		font-size: 14px;
 		color: rgba(255,255,255,0.3);
+	}
+	.icon-favorite{
+		color:#d93f30;
 	}
 	.item{
 		display: flex;

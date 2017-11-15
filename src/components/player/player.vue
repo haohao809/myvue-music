@@ -74,7 +74,7 @@
 						<i class="icon-next" @click='next'></i>
 					</div>
 					<div class="icon i-right">
-						<i class="icon-not-favorite"></i>
+						<i class="icon" @click="toggleFavorite(currentSong)" :class="getFavoriteIcon(currentSong)"></i>
 					</div>
 				</div>
 			</div>
@@ -117,7 +117,9 @@
 	import Lyric from 'lyric-parser'
 	import Scroll from 'base/scroll/scroll'
 	import PlayList from '../playList/playList'
+	import {playerMixin} from 'common/js/mixin'
 	export default{
+		mixins: [playerMixin],
 		data(){
 			return {
 				songReady: false,
@@ -655,6 +657,9 @@
 	}
 	.icon i{
 		font-size: 30px;
+	}
+	.icon-favorite{
+		color:#d93f30;
 	}
 	.i-left{
 		text-align: right;
