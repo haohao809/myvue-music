@@ -11,13 +11,13 @@
 				<i class="icon-play"></i>
 				<span class="text">随机播放全部</span>
 			</div>
-			<div class="list-wrapper">
-				<scroll :data='favoriteList' v-if="currentIndex===0">
+			<div class="list-wrapper" ref="listWrapper" >
+				<scroll :data='favoriteList' v-if="currentIndex===0"   class="list-scroll"  ref="favoriteList">
 					<div class="line-list">
 						<song-list :songs='favoriteList' @select="selectSong"></song-list>
 					</div>
 				</scroll>
-				<scroll :data='playHistory' v-if="currentIndex===1">
+				<scroll :data='playHistory' v-if="currentIndex===1"  class="list-scroll"  ref="playHistory">
 					<div class="line-list">
 						<song-list :songs='playHistory' @select="selectSong"></song-list>
 					</div>
@@ -33,7 +33,9 @@
 	import SongList from 'base/song-list/song-list'
 	import {mapGetters,mapActions} from 'vuex'
 	import Song from 'common/js/song'
+	import {playlistMixin} from 'common/js/mixin'
 	export default{
+		mixins : [playlistMixin],
 		data() {
 			return {
 				currentIndex: 0,
@@ -70,6 +72,13 @@
 		        this.randomPlay({
 		          list
 		        })
+			},
+			handlePlaylist(playlist){
+				const bottom = playlist.length > 0 ? '60px' : '';
+				this.$refs.listWrapper.style.bottom = bottom;
+				this.$refs.playHistory&&this.$refs.playHistory.refresh();
+				this.$refs.favoriteList&&this.$refs.favoriteList.refresh();
+				
 			},
 			switchItem(index){
 				this.currentIndex = index;
@@ -135,6 +144,10 @@
 			width: 100%;
 			.line-list{
 				padding: 20px 30px;
+			}
+			.list-scroll{
+				height:100%;
+				overflow: hidden;
 			}
 		}
 	}
