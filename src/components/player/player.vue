@@ -217,6 +217,7 @@
 				if(this.playList.length===1){
 					
 					this.loop();
+					return
 				}
 				else{
 				 let index	= this.currentIndex-1;
@@ -235,6 +236,7 @@
 		       }
 				if(this.playList.length===1){					
 					this.loop();
+					return;
 				}
 				else{
 					let index	= this.currentIndex+1;
