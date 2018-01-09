@@ -3,6 +3,8 @@ import {commonParam,options} from './config'
 
 import axios from 'axios'
 
+const debug = process.env.NODE_ENV !== 'production'
+
 export  function getRecommend() {
 	const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg';
 	const data = Object.assign({},commonParam,{
@@ -13,7 +15,7 @@ export  function getRecommend() {
 	return jsonp(url, data, options)
 }
 export function getDiscList() {
-	const url = '/api/getDiscList';
+	const url = debug ? '/api/getDiscList' : 'http://ustbhuangyi.com/music/api/getDiscList';
 	const data = Object.assign({}, commonParam, {
     platform: 'yqq',
     hostUin: 0,
@@ -32,7 +34,7 @@ export function getDiscList() {
 }
 
 export function getSongList(disstid){
-	const url = '/api/getSongList'
+	const url = debug ?'/api/getSongList' : 'http://ustbhuangyi.com/music/api/getCdInfo'
 	const data= Object.assign({},commonParam,{
 	disstid,
     type: 1,

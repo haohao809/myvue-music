@@ -102,7 +102,7 @@
 			</div>
 		</div>
 		<play-list ref="playlist"></play-list>
-		<audio ref='audio' :src='currentSong.url' @play="ready" @error="error" @timeupdate="timeupdate"
+		<audio ref='audio' @play="ready" @error="error" @timeupdate="timeupdate"
 			@ended="end" @pause="paused"></audio>
 	</div>
 </template>
@@ -175,7 +175,7 @@
 		},
 		watch:{
 			 currentSong(newSong,oldSong){
-			 if (!newSong.id) {
+			 if (!newSong.id || !newSong.url) {
 			          return
 			     }
 		        if (newSong.id === oldSong.id) {
@@ -186,10 +186,13 @@
 		        }
 			 	this.songReady = false;
 			 	clearTimeout(this.timer)
-			 	 this.timer = setTimeout(() => {
-		          this.$refs.audio.play()
-		          this.getLyric()
-		        }, 1000)
+//			 	 this.timer = setTimeout(() => {
+//		          this.$refs.audio.play()
+//		          this.getLyric()
+//		        }, 1000)
+				this.$refs.audio.src = newSong.url;
+				this.$refs.audio.play()
+				this.getLyric()
 			 },
 			 playing(newPalying){
 			 	if (!this.songReady) {
@@ -306,8 +309,17 @@
 			),
 			ready(){
 				console.log(this.songReady);
-				this.songReady = true;
+				//延时避免快速切换歌曲导致DOM 报错
+				setTimeout(() => {
+					this.songReady = true;
+				}, 500)
+				
+//				this.songReady = true;
 				this.savePlayHistory(this.currentSong)
+				//如果歌曲的播放晚于歌词的出现，播放时需同步歌词
+				if(this.currentLyric && !this.isPureMusic){
+					this.currentLyric.seek(this.currentTime * 1000)
+				}
 				
 			},
 			error() {

@@ -26,7 +26,7 @@
 		margin-right: 9px
 		width: 40px
 		height: 42px
-		bg-image('logo')
+		background:url('/static/img/logo@2x.png')
 		background-size: 40px 42px	
 				
       	
