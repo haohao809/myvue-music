@@ -190,6 +190,7 @@
 //		          this.$refs.audio.play()
 //		          this.getLyric()
 //		        }, 1000)
+				console.log(newSong);
 				this.$refs.audio.src = newSong.url;
 				this.$refs.audio.play()
 				this.getLyric()
