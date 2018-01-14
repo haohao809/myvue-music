@@ -2,6 +2,7 @@
 
 > A Vue.js project
 
+项目演示地址:  http://www.haohao809.xin
 ## Build Setup
 
 ``` bash
