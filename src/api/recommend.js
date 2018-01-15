@@ -15,7 +15,8 @@ export  function getRecommend() {
 	return jsonp(url, data, options)
 }
 export function getDiscList() {
-	const url = debug ? '/api/getDiscList' : 'http://ustbhuangyi.com/music/api/getDiscList';
+  //线上根据自己设置修改
+	const url = debug ? '/api/getDiscList' : 'http://www.haohao809.xin/music/api/getDiscList';
 	const data = Object.assign({}, commonParam, {
     platform: 'yqq',
     hostUin: 0,
