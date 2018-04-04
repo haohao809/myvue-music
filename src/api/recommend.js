@@ -15,8 +15,7 @@ export  function getRecommend() {
 	return jsonp(url, data, options)
 }
 export function getDiscList() {
-  //线上根据自己设置修改
-	const url = debug ? '/api/getDiscList' : 'http://www.haohao809.xin/music/api/getDiscList';
+	const url = debug ? '/api/getDiscList' : 'http://www.haohao809.xin/api/getDiscList'
 	const data = Object.assign({}, commonParam, {
     platform: 'yqq',
     hostUin: 0,
@@ -35,7 +34,7 @@ export function getDiscList() {
 }
 
 export function getSongList(disstid){
-	const url = debug ?'/api/getSongList' : 'http://ustbhuangyi.com/music/api/getCdInfo'
+	const url = '/api/getSongList' 
 	const data= Object.assign({},commonParam,{
 	disstid,
     type: 1,
